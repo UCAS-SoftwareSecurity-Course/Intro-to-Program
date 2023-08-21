@@ -14,7 +14,7 @@ modules:
 
   - id: preprocess
     name: Preprocess
-    description: This is a simple threat-modeling lab.
+    description: This is a simple program lab.
 
     challenges:
       - id: level2
