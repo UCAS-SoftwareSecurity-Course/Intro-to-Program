@@ -13,16 +13,34 @@ award:
 modules:
 
   - id: Preprocess
-    name: xxxx
+    name: xxxxxxxx
     description: This is a simple threat-modeling lab.
 
     challenges:
-      - id: start
-        name: Start
-        description: Start and finish the lab.
-
-    resources:
-      - name: Threat Modeling Lab Tutorial (README!)
-        type: markdown
-        content: |
-            请认真阅读实验说明文档 -> https://docs.qq.com/aio/DSWtnQlFUZVRQRlhk?p=vBjWTuG4FJ9kZOZ7SrsZN4
+      - id: level2
+        name: level2
+        description: Start and finish the challenge.
+      
+      - id: level3
+        name: level3
+        description: Start and finish the challenge.
+      
+      - id: level4
+        name: level4
+        description: Start and finish the challenge.
+      
+      - id: level5
+        name: level5
+        description: Start and finish the challenge.
+      
+      - id: level6
+        name: level6
+        description: Start and finish the challenge.
+      
+      - id: level7
+        name: level7
+        description: Start and finish the challenge.
+      
+      - id: level8
+        name: level8
+        description: Start and finish the challenge.
