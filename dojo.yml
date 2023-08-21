@@ -12,8 +12,8 @@ award:
 
 modules:
 
-  - id: Preprocess
-    name: xxxxxxxx
+  - id: preprocess
+    name: Preprocess
     description: This is a simple threat-modeling lab.
 
     challenges:
