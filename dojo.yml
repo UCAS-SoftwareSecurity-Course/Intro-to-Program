@@ -44,3 +44,126 @@ modules:
       - id: level8
         name: level8
         description: Start and finish the challenge.
+
+  - id: compilation
+    name: Compilation
+    description: This is a simple program lab.
+
+    challenges:
+      - id: level9
+        name: level9
+        description: Start and finish the challenge.
+      
+      - id: level10
+        name: level10
+        description: Start and finish the challenge.
+      
+      - id: level11
+        name: level11
+        description: Start and finish the challenge.
+      
+      - id: level12
+        name: level12
+        description: Start and finish the challenge.
+      
+      - id: level13
+        name: level13
+        description: Start and finish the challenge.
+      
+      - id: level14
+        name: level14
+        description: Start and finish the challenge.
+      
+      - id: level15
+        name: level15
+        description: Start and finish the challenge.
+
+      - id: level16
+        name: level16
+        description: Start and finish the challenge.
+      
+      - id: level17
+        name: level17
+        description: Start and finish the challenge.
+      
+      - id: level18
+        name: level18
+        description: Start and finish the challenge.
+      
+      - id: level19
+        name: level19
+        description: Start and finish the challenge.
+      
+      - id: level20
+        name: level20
+        description: Start and finish the challenge.
+      
+      - id: level21
+        name: level21
+        description: Start and finish the challenge.
+      
+      - id: level22
+        name: level22
+        description: Start and finish the challenge.
+
+      - id: level23
+        name: level23
+        description: Start and finish the challenge.
+      
+      - id: level24
+        name: level24
+        description: Start and finish the challenge.
+      
+      - id: level25
+        name: level25
+        description: Start and finish the challenge.
+
+  - id: assembly
+    name: Assembly
+    description: This is a simple program lab.
+
+    challenges:
+      - id: level26
+        name: level26
+        description: Start and finish the challenge.
+      
+      - id: level27
+        name: level27
+        description: Start and finish the challenge.
+      
+      - id: level28
+        name: level28
+        description: Start and finish the challenge.
+      
+      - id: level29
+        name: level29
+        description: Start and finish the challenge.
+      
+      - id: level30
+        name: level30
+        description: Start and finish the challenge.
+      
+      - id: level31
+        name: level31
+        description: Start and finish the challenge.
+      
+      - id: level32
+        name: level32
+        description: Start and finish the challenge.
+
+      - id: level33
+        name: level33
+        description: Start and finish the challenge.
+      
+      - id: level34
+        name: level34
+        description: Start and finish the challenge.
+
+  - id: linking
+    name: Linking
+    description: This is a simple program lab.
+
+    challenges:
+      - id: level35-linking
+        name: level35
+        description: Start and finish the challenge.
