@@ -1,0 +1,81 @@
+TranslationUnitDecl 0x11e6f58 <<invalid sloc>> <invalid sloc>
+|-TypedefDecl 0x11e7780 <<invalid sloc>> <invalid sloc> implicit __int128_t '__int128'
+| `-BuiltinType 0x11e7520 '__int128'
+|-TypedefDecl 0x11e77f0 <<invalid sloc>> <invalid sloc> implicit __uint128_t 'unsigned __int128'
+| `-BuiltinType 0x11e7540 'unsigned __int128'
+|-TypedefDecl 0x11e7af8 <<invalid sloc>> <invalid sloc> implicit __NSConstantString 'struct __NSConstantString_tag'
+| `-RecordType 0x11e78d0 'struct __NSConstantString_tag'
+|   `-Record 0x11e7848 '__NSConstantString_tag'
+|-TypedefDecl 0x11e7b90 <<invalid sloc>> <invalid sloc> implicit __builtin_ms_va_list 'char *'
+| `-PointerType 0x11e7b50 'char *'
+|   `-BuiltinType 0x11e7000 'char'
+|-TypedefDecl 0x11e7e88 <<invalid sloc>> <invalid sloc> implicit __builtin_va_list 'struct __va_list_tag[1]'
+| `-ConstantArrayType 0x11e7e30 'struct __va_list_tag[1]' 1 
+|   `-RecordType 0x11e7c70 'struct __va_list_tag'
+|     `-Record 0x11e7be8 '__va_list_tag'
+|-FunctionDecl 0x123dcc0 <solve_level12.c:1:14> col:14 implicit used malloc 'void *(unsigned long)' extern
+| |-ParmVarDecl 0x123ddb8 <<invalid sloc>> <invalid sloc> 'unsigned long'
+| `-BuiltinAttr 0x123dd60 <<invalid sloc>> Implicit 792
+|-FunctionDecl 0x123de28 prev 0x123dcc0 <col:1, col:34> col:14 used malloc 'void *(unsigned long)' extern
+| |-ParmVarDecl 0x123dbf0 <col:21, col:30> col:34 'unsigned long'
+| `-BuiltinAttr 0x123df00 <<invalid sloc>> Inherited Implicit 792
+|-RecordDecl 0x123df28 <line:3:1, line:6:1> line:3:8 struct Node definition
+| |-FieldDecl 0x123dfe8 <line:4:5, col:9> col:9 referenced data 'int'
+| `-FieldDecl 0x123e0f0 <line:5:5, col:18> col:18 referenced next 'struct Node *'
+`-FunctionDecl 0x123e190 <line:8:1, line:24:1> line:8:5 main 'int ()'
+  `-CompoundStmt 0x1254d20 <col:12, line:24:1>
+    |-DeclStmt 0x123e428 <line:9:5, col:68>
+    | `-VarDecl 0x123e2a0 <col:5, col:67> col:18 used node_1 'struct Node *' cinit
+    |   `-CStyleCastExpr 0x123e400 <col:27, col:67> 'struct Node *' <BitCast>
+    |     `-CallExpr 0x123e3b0 <col:41, col:67> 'void *'
+    |       |-ImplicitCastExpr 0x123e398 <col:41> 'void *(*)(unsigned long)' <FunctionToPointerDecay>
+    |       | `-DeclRefExpr 0x123e308 <col:41> 'void *(unsigned long)' Function 0x123de28 'malloc' 'void *(unsigned long)'
+    |       `-UnaryExprOrTypeTraitExpr 0x123e348 <col:48, col:66> 'unsigned long' sizeof 'struct Node':'struct Node'
+    |-BinaryOperator 0x123e4c8 <line:10:5, col:20> 'int' '='
+    | |-MemberExpr 0x123e478 <col:5, col:13> 'int' lvalue ->data 0x123dfe8
+    | | `-ImplicitCastExpr 0x123e460 <col:5> 'struct Node *' <LValueToRValue>
+    | |   `-DeclRefExpr 0x123e440 <col:5> 'struct Node *' lvalue Var 0x123e2a0 'node_1' 'struct Node *'
+    | `-IntegerLiteral 0x123e4a8 <col:20> 'int' 1
+    |-BinaryOperator 0x123e588 <line:11:5, col:20> 'struct Node *' '='
+    | |-MemberExpr 0x123e520 <col:5, col:13> 'struct Node *' lvalue ->next 0x123e0f0
+    | | `-ImplicitCastExpr 0x123e508 <col:5> 'struct Node *' <LValueToRValue>
+    | |   `-DeclRefExpr 0x123e4e8 <col:5> 'struct Node *' lvalue Var 0x123e2a0 'node_1' 'struct Node *'
+    | `-ImplicitCastExpr 0x123e570 <col:20> 'struct Node *' <NullToPointer>
+    |   `-IntegerLiteral 0x123e550 <col:20> 'int' 0
+    |-DeclStmt 0x123e728 <line:13:5, col:68>
+    | `-VarDecl 0x123e5d0 <col:5, col:67> col:18 used node_2 'struct Node *' cinit
+    |   `-CStyleCastExpr 0x123e700 <col:27, col:67> 'struct Node *' <BitCast>
+    |     `-CallExpr 0x123e6b0 <col:41, col:67> 'void *'
+    |       |-ImplicitCastExpr 0x123e698 <col:41> 'void *(*)(unsigned long)' <FunctionToPointerDecay>
+    |       | `-DeclRefExpr 0x123e638 <col:41> 'void *(unsigned long)' Function 0x123de28 'malloc' 'void *(unsigned long)'
+    |       `-UnaryExprOrTypeTraitExpr 0x123e678 <col:48, col:66> 'unsigned long' sizeof 'struct Node':'struct Node'
+    |-BinaryOperator 0x123e7c8 <line:14:5, col:20> 'int' '='
+    | |-MemberExpr 0x123e778 <col:5, col:13> 'int' lvalue ->data 0x123dfe8
+    | | `-ImplicitCastExpr 0x123e760 <col:5> 'struct Node *' <LValueToRValue>
+    | |   `-DeclRefExpr 0x123e740 <col:5> 'struct Node *' lvalue Var 0x123e5d0 'node_2' 'struct Node *'
+    | `-IntegerLiteral 0x123e7a8 <col:20> 'int' 2
+    |-BinaryOperator 0x123e888 <line:15:5, col:20> 'struct Node *' '='
+    | |-MemberExpr 0x123e820 <col:5, col:13> 'struct Node *' lvalue ->next 0x123e0f0
+    | | `-ImplicitCastExpr 0x123e808 <col:5> 'struct Node *' <LValueToRValue>
+    | |   `-DeclRefExpr 0x123e7e8 <col:5> 'struct Node *' lvalue Var 0x123e5d0 'node_2' 'struct Node *'
+    | `-ImplicitCastExpr 0x123e870 <col:20> 'struct Node *' <NullToPointer>
+    |   `-IntegerLiteral 0x123e850 <col:20> 'int' 0
+    |-BinaryOperator 0x123e948 <line:17:5, col:20> 'struct Node *' '='
+    | |-MemberExpr 0x123e8e0 <col:5, col:13> 'struct Node *' lvalue ->next 0x123e0f0
+    | | `-ImplicitCastExpr 0x123e8c8 <col:5> 'struct Node *' <LValueToRValue>
+    | |   `-DeclRefExpr 0x123e8a8 <col:5> 'struct Node *' lvalue Var 0x123e2a0 'node_1' 'struct Node *'
+    | `-ImplicitCastExpr 0x123e930 <col:20> 'struct Node *' <LValueToRValue>
+    |   `-DeclRefExpr 0x123e910 <col:20> 'struct Node *' lvalue Var 0x123e5d0 'node_2' 'struct Node *'
+    |-DeclStmt 0x123e9f0 <line:19:5, col:23>
+    | `-VarDecl 0x123e988 <col:5, col:17> col:17 used header 'struct Node':'struct Node'
+    |-BinaryOperator 0x123ea78 <line:20:5, col:19> 'int' '='
+    | |-MemberExpr 0x123ea28 <col:5, col:12> 'int' lvalue .data 0x123dfe8
+    | | `-DeclRefExpr 0x123ea08 <col:5> 'struct Node':'struct Node' lvalue Var 0x123e988 'header' 'struct Node':'struct Node'
+    | `-IntegerLiteral 0x123ea58 <col:19> 'int' 0
+    |-BinaryOperator 0x123eb80 <line:21:5, col:19> 'struct Node *' '='
+    | |-MemberExpr 0x123eb18 <col:5, col:12> 'struct Node *' lvalue .next 0x123e0f0
+    | | `-DeclRefExpr 0x123eaf8 <col:5> 'struct Node':'struct Node' lvalue Var 0x123e988 'header' 'struct Node':'struct Node'
+    | `-ImplicitCastExpr 0x123eb68 <col:19> 'struct Node *' <LValueToRValue>
+    |   `-DeclRefExpr 0x123eb48 <col:19> 'struct Node *' lvalue Var 0x123e2a0 'node_1' 'struct Node *'
+    `-ReturnStmt 0x123ebc0 <line:23:5, col:12>
+      `-IntegerLiteral 0x123eba0 <col:12> 'int' 0

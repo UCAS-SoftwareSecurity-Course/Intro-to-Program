@@ -1,0 +1,49 @@
+TranslationUnitDecl 0x1609f58 <<invalid sloc>> <invalid sloc>
+|-TypedefDecl 0x160a780 <<invalid sloc>> <invalid sloc> implicit __int128_t '__int128'
+| `-BuiltinType 0x160a520 '__int128'
+|-TypedefDecl 0x160a7f0 <<invalid sloc>> <invalid sloc> implicit __uint128_t 'unsigned __int128'
+| `-BuiltinType 0x160a540 'unsigned __int128'
+|-TypedefDecl 0x160aaf8 <<invalid sloc>> <invalid sloc> implicit __NSConstantString 'struct __NSConstantString_tag'
+| `-RecordType 0x160a8d0 'struct __NSConstantString_tag'
+|   `-Record 0x160a848 '__NSConstantString_tag'
+|-TypedefDecl 0x160ab90 <<invalid sloc>> <invalid sloc> implicit __builtin_ms_va_list 'char *'
+| `-PointerType 0x160ab50 'char *'
+|   `-BuiltinType 0x160a000 'char'
+|-TypedefDecl 0x160ae88 <<invalid sloc>> <invalid sloc> implicit __builtin_va_list 'struct __va_list_tag[1]'
+| `-ConstantArrayType 0x160ae30 'struct __va_list_tag[1]' 1 
+|   `-RecordType 0x160ac70 'struct __va_list_tag'
+|     `-Record 0x160abe8 '__va_list_tag'
+`-FunctionDecl 0x16609f0 <solve_level13.c:1:1, line:13:1> line:1:5 main 'int ()'
+  `-CompoundStmt 0x1660f48 <col:12, line:13:1>
+    |-DeclStmt 0x1660b78 <line:2:5, col:14>
+    | `-VarDecl 0x1660af0 <col:5, col:13> col:9 used i 'int' cinit
+    |   `-IntegerLiteral 0x1660b58 <col:13> 'int' 0
+    |-DeclStmt 0x1660c30 <line:3:5, col:16>
+    | `-VarDecl 0x1660ba8 <col:5, col:15> col:9 used sum 'int' cinit
+    |   `-IntegerLiteral 0x1660c10 <col:15> 'int' 0
+    |-ForStmt 0x1660df8 <line:4:5, line:6:5>
+    | |-BinaryOperator 0x1660c88 <line:4:10, col:14> 'int' '='
+    | | |-DeclRefExpr 0x1660c48 <col:10> 'int' lvalue Var 0x1660af0 'i' 'int'
+    | | `-IntegerLiteral 0x1660c68 <col:14> 'int' 0
+    | |-<<<NULL>>>
+    | |-BinaryOperator 0x1660d00 <col:17, col:21> 'int' '<'
+    | | |-ImplicitCastExpr 0x1660ce8 <col:17> 'int' <LValueToRValue>
+    | | | `-DeclRefExpr 0x1660ca8 <col:17> 'int' lvalue Var 0x1660af0 'i' 'int'
+    | | `-IntegerLiteral 0x1660cc8 <col:21> 'int' 10
+    | |-UnaryOperator 0x1660d40 <col:25, col:26> 'int' postfix '++'
+    | | `-DeclRefExpr 0x1660d20 <col:25> 'int' lvalue Var 0x1660af0 'i' 'int'
+    | `-CompoundStmt 0x1660de0 <col:30, line:6:5>
+    |   `-CompoundAssignOperator 0x1660db0 <line:5:9, col:16> 'int' '+=' ComputeLHSTy='int' ComputeResultTy='int'
+    |     |-DeclRefExpr 0x1660d58 <col:9> 'int' lvalue Var 0x1660ba8 'sum' 'int'
+    |     `-ImplicitCastExpr 0x1660d98 <col:16> 'int' <LValueToRValue>
+    |       `-DeclRefExpr 0x1660d78 <col:16> 'int' lvalue Var 0x1660af0 'i' 'int'
+    |-WhileStmt 0x1660ef8 <line:8:5, line:10:5>
+    | |-BinaryOperator 0x1660e88 <line:8:12, col:18> 'int' '>'
+    | | |-ImplicitCastExpr 0x1660e70 <col:12> 'int' <LValueToRValue>
+    | | | `-DeclRefExpr 0x1660e30 <col:12> 'int' lvalue Var 0x1660ba8 'sum' 'int'
+    | | `-IntegerLiteral 0x1660e50 <col:18> 'int' 0
+    | `-CompoundStmt 0x1660ee0 <col:21, line:10:5>
+    |   `-UnaryOperator 0x1660ec8 <line:9:9, col:12> 'int' postfix '--'
+    |     `-DeclRefExpr 0x1660ea8 <col:9> 'int' lvalue Var 0x1660ba8 'sum' 'int'
+    `-ReturnStmt 0x1660f38 <line:12:5, col:12>
+      `-IntegerLiteral 0x1660f18 <col:12> 'int' 0

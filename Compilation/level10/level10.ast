@@ -1,0 +1,54 @@
+TranslationUnitDecl 0x55b66f3795f8 <<invalid sloc>> <invalid sloc>
+|-TypedefDecl 0x55b66f379e20 <<invalid sloc>> <invalid sloc> implicit __int128_t '__int128'
+| `-BuiltinType 0x55b66f379bc0 '__int128'
+|-TypedefDecl 0x55b66f379e90 <<invalid sloc>> <invalid sloc> implicit __uint128_t 'unsigned __int128'
+| `-BuiltinType 0x55b66f379be0 'unsigned __int128'
+|-TypedefDecl 0x55b66f37a198 <<invalid sloc>> <invalid sloc> implicit __NSConstantString 'struct __NSConstantString_tag'
+| `-RecordType 0x55b66f379f70 'struct __NSConstantString_tag'
+|   `-Record 0x55b66f379ee8 '__NSConstantString_tag'
+|-TypedefDecl 0x55b66f37a230 <<invalid sloc>> <invalid sloc> implicit __builtin_ms_va_list 'char *'
+| `-PointerType 0x55b66f37a1f0 'char *'
+|   `-BuiltinType 0x55b66f3796a0 'char'
+|-TypedefDecl 0x55b66f37a528 <<invalid sloc>> <invalid sloc> implicit __builtin_va_list 'struct __va_list_tag[1]'
+| `-ConstantArrayType 0x55b66f37a4d0 'struct __va_list_tag[1]' 1 
+|   `-RecordType 0x55b66f37a310 'struct __va_list_tag'
+|     `-Record 0x55b66f37a288 '__va_list_tag'
+`-FunctionDecl 0x55b66f3d5ac0 <./solve_level10.c:1:1, line:11:1> line:1:5 main 'int ()'
+  `-CompoundStmt 0x55b66f3d6410 <col:12, line:11:1>
+    |-DeclStmt 0x55b66f3d5cb8 <line:2:5, col:22>
+    | `-VarDecl 0x55b66f3d5c50 <col:5, col:21> col:9 used array_1 'int[16]'
+    |-DeclStmt 0x55b66f3d5f80 <line:3:5, col:40>
+    | `-VarDecl 0x55b66f3d5d38 <col:5, col:39> col:9 used array_2 'int[16]' cinit
+    |   `-InitListExpr 0x55b66f3d5eb8 <col:25, col:39> 'int[16]'
+    |     |-array_filler: ImplicitValueInitExpr 0x55b66f3d5f70 <<invalid sloc>> 'int'
+    |     |-IntegerLiteral 0x55b66f3d5da0 <col:26> 'int' 1
+    |     |-IntegerLiteral 0x55b66f3d5dc0 <col:29> 'int' 2
+    |     |-IntegerLiteral 0x55b66f3d5de0 <col:32> 'int' 3
+    |     |-IntegerLiteral 0x55b66f3d5e00 <col:35> 'int' 4
+    |     `-IntegerLiteral 0x55b66f3d5e20 <col:38> 'int' 5
+    |-BinaryOperator 0x55b66f3d6060 <line:5:5, col:18> 'int' '='
+    | |-ArraySubscriptExpr 0x55b66f3d6020 <col:5, col:14> 'int' lvalue
+    | | |-ImplicitCastExpr 0x55b66f3d6008 <col:5> 'int *' <ArrayToPointerDecay>
+    | | | `-DeclRefExpr 0x55b66f3d5f98 <col:5> 'int[16]' lvalue Var 0x55b66f3d5c50 'array_1' 'int[16]'
+    | | `-IntegerLiteral 0x55b66f3d5fb8 <col:13> 'int' 0
+    | `-IntegerLiteral 0x55b66f3d6040 <col:18> 'int' 1
+    |-BinaryOperator 0x55b66f3d6118 <line:6:5, col:18> 'int' '='
+    | |-ArraySubscriptExpr 0x55b66f3d60d8 <col:5, col:14> 'int' lvalue
+    | | |-ImplicitCastExpr 0x55b66f3d60c0 <col:5> 'int *' <ArrayToPointerDecay>
+    | | | `-DeclRefExpr 0x55b66f3d6080 <col:5> 'int[16]' lvalue Var 0x55b66f3d5d38 'array_2' 'int[16]'
+    | | `-IntegerLiteral 0x55b66f3d60a0 <col:13> 'int' 0
+    | `-IntegerLiteral 0x55b66f3d60f8 <col:18> 'int' 3
+    |-DeclStmt 0x55b66f3d61f0 <line:7:5, col:23>
+    | `-VarDecl 0x55b66f3d6150 <col:5, col:16> col:10 used p_1 'int *' cinit
+    |   `-ImplicitCastExpr 0x55b66f3d61d8 <col:16> 'int *' <ArrayToPointerDecay>
+    |     `-DeclRefExpr 0x55b66f3d61b8 <col:16> 'int[16]' lvalue Var 0x55b66f3d5c50 'array_1' 'int[16]'
+    |-DeclStmt 0x55b66f3d62c0 <line:8:5, col:23>
+    | `-VarDecl 0x55b66f3d6220 <col:5, col:16> col:10 p_2 'int *' cinit
+    |   `-ImplicitCastExpr 0x55b66f3d62a8 <col:16> 'int *' <ArrayToPointerDecay>
+    |     `-DeclRefExpr 0x55b66f3d6288 <col:16> 'int[16]' lvalue Var 0x55b66f3d5d38 'array_2' 'int[16]'
+    |-DeclStmt 0x55b66f3d63c8 <line:9:5, col:21>
+    | `-VarDecl 0x55b66f3d6328 <col:5, col:18> col:11 p_3 'int **' cinit
+    |   `-UnaryOperator 0x55b66f3d63b0 <col:17, col:18> 'int **' prefix '&' cannot overflow
+    |     `-DeclRefExpr 0x55b66f3d6390 <col:18> 'int *' lvalue Var 0x55b66f3d6150 'p_1' 'int *'
+    `-ReturnStmt 0x55b66f3d6400 <line:10:5, col:12>
+      `-IntegerLiteral 0x55b66f3d63e0 <col:12> 'int' 0

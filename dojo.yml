@@ -1,0 +1,28 @@
+id: Prgram Generation and Execution
+
+name: Prgram Generation and Execution
+
+description: |
+  This is Prgram Generation and Execution lab.
+
+type: topic
+
+award:
+  emoji: 😀
+
+modules:
+
+  - id: Preprocess
+    name: xxxx
+    description: This is a simple threat-modeling lab.
+
+    challenges:
+      - id: start
+        name: Start
+        description: Start and finish the lab.
+
+    resources:
+      - name: Threat Modeling Lab Tutorial (README!)
+        type: markdown
+        content: |
+            请认真阅读实验说明文档 -> https://docs.qq.com/aio/DSWtnQlFUZVRQRlhk?p=vBjWTuG4FJ9kZOZ7SrsZN4
