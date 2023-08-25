@@ -2548,6 +2548,60 @@ class IntroLevel36(ELFBase):
         print("Congratulations! You have passed this challenge! Following is your sesame:")
         get_sesame()
 
+class IntroLevel37(ELFBase):
+    def __init__(self):
+        super().__init__()
+        task_description = description(f"""
+            Overall, the tasks performed by the linker include address and space allocation, 
+            symbol resolution, and instruction fixing, which containing many details, such as
+            space allocation strategies and how to fix instructions based on the relocation table, etc. 
+            However, our goal is to understand the linking process in general, so we will 
+            temporarily skip these details here. 
+                                       
+            Now, I would like you to take a look at the complete static linking process.
+            
+            In this challenge, Two object files `level37_a.o` and `level37_b.o` are given,
+            I want you to link them into an executable file, make it execute normally.
+
+            ** Your task **:
+            1. Link the given object files into an executable file, and make it execute normally. 
+            2. Find at least 4 `.o`(object file) or `.a`(static library) files used by the linker.
+            3. You should submit a file containing the names of the `.o` or `.a` files used by the linker, and split them with ` `.
+                for example `a.o b.o c.a d.a` 
+
+        """)
+        hint = description(f"""
+        Hint:
+             1. `--verbose` or `-v` option may help you.
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+
+    def check(self):
+        self.get_submitted_file()
+        with open(self.submitted_file_path, "r") as f:
+            content = f.read().strip()
+        
+        candidate_pools = [
+            "crt1.o", "crti.o", "crtbegin.o", "crtend.o", "crtn.o", "libc.a", "libm.a", "libgcc.a", "libpthread.a",
+            "crtbeginS.o", "crtendS.o", "crtbeginT.o", "crtendT.o", "crtbegin.oS", "crtend.oS", "crtbeginT.oS", "crtendT.oS",
+            "libgcc_eh.a"
+        ]
+        results = content.split(" ")
+
+        if len(results) < 4:
+            print(results)
+            print("You should submit at least 4 files!")
+            sys.exit(1)
+
+        if not all([result in candidate_pools for result in results]):
+            print("You have submitted some invalid files!")
+            sys.exit(1)
+        
+        print("Congratulations! You have passed this challenge! Following is your sesame:")
+        get_sesame()
+
 
 if __name__ == "__main__":
     challenge = globals()[f"IntroLevel{level}"]
