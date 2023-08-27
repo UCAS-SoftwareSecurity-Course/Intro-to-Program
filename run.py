@@ -12,6 +12,8 @@ import subprocess
 import readline
 import glob
 import difflib
+import signal
+import time
 import tempfile
 import lief
 import hashlib
@@ -2602,6 +2604,137 @@ class IntroLevel37(ELFBase):
         print("Congratulations! You have passed this challenge! Following is your sesame:")
         get_sesame()
 
+class IntroLevel38(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            We have learned about how a program is generated from source code to executable file,
+            and now we will talk about how a program is executed. Program is a group of instructions, 
+            and data, which is stored in the file system, it's a static entity, but when we execute 
+            it, operating system will load it into memory, and create a `process`, which is a instance
+            of program, and it's a dynamic entity.
+            
+            Every process has its own independent virtual address space, its size is determined by computer's
+            architecture, for example, in 32-bit system, the virtual address space is 4GB, in 64-bit system,
+            the theoretical maximum size of virtual address space is 2^64 bytes, but in practice, it's much smaller.
+            
+            You may find that your computer only has 16GB or 32GB of memory, which seems like it would quickly 
+            be consumed by just a few processes. So why hasn't this situation occurred? The answer is that 
+            the operating system uses many techniques to reduce the memory consumption of processes, such as
+            `paging`, `copy-on-write`, `shared memory`, etc. We will not discuss these techniques in detail here.
+                                       
+            In this challenge, you will explore the memory layout of a process.
+            
+            ** Your task **:
+            1. find the virtual memory address range where the `.text` section is loaded, the `.data` section is loaded,
+               the virtual address range of the stack, and the virtual address range of the heap.
+            2. You should submit a file containing the above 4 virtual address ranges
+                for example:
+                ```
+                0x400000-0x401000
+                0x401000-0x402000
+                0x7ffffffde000-0x7ffffffff000
+                0x555555554000-0x555555555000
+                ```
+        """)
+        hint = description(f"""
+        Hint:
+             1. `/proc/<pid>/maps` will help you to finish this challenge.
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def ground_truth(self, pid):
+        res = subprocess.check_output(f"cat /proc/{pid}/maps", shell=True).decode().strip()
+        entries = res.split("\n")
+
+        result = { }
+
+        for entry in entries:
+            ranges = entry.split(" ")[0]
+            range_start, range_end = ranges.split("-")
+            range_start = int(range_start, 16)
+            range_end = int(range_end, 16)
+            if 0x4017c0 >= range_start and 0x4017c0 <= range_end:
+                result["code"] = (range_start, range_end)
+            if 0x5040b0 >= range_start and 0x5040b0 <= range_end:
+                result["data"] = (range_start, range_end)
+            if "[stack]" in entry:
+                result["stack"] = (range_start, range_end)
+            if "[heap]" in entry:
+                result["heap"] = (range_start, range_end)
+        
+        return result
+
+    def error(self, submit, ground_truth):
+        print("The virtual address range is not correct!")
+        print(f"Your range: {submit}")
+        print(f"Ground truth: {hex(ground_truth[0])}-{hex(ground_truth[1])}")
+        sys.exit(1)
+
+    def check(self):
+        self.child_pid = os.fork()
+
+        if self.child_pid == 0:
+            print_split_line()
+            os.execve("./level38", ["./level38"], {})
+        else:
+            time.sleep(0.5)
+            ground_truth = self.ground_truth(self.child_pid)
+
+            self.get_submitted_file()
+            with open(self.submitted_file_path, "r") as f:
+                content = f.read().strip()
+            
+            ranges = content.split("\n")
+            if len(ranges) != 4:
+                print("You should submit 4 virtual address ranges!")
+                sys.exit(1)
+            
+            for i in range(len(ranges)):
+                r = ranges[i]
+                range_start = int(r.split("-")[0], 16)
+                range_end = int(r.split("-")[1], 16)
+
+                if i == 0:
+                    if not (range_start == ground_truth["code"][0] and range_end == ground_truth["code"][1]):
+                        self.error(r, ground_truth["code"])
+                    else:
+                        continue
+                if i == 1:
+                    if not (range_start == ground_truth["data"][0] and range_end == ground_truth["data"][1]):
+                        self.error(r, ground_truth["data"])
+                    else:
+                        continue
+                if i == 2:
+                    if not (range_start == ground_truth["stack"][0] and range_end == ground_truth["stack"][1]):
+                        self.error(r, ground_truth["stack"])
+                    else:
+                        continue
+                if i == 3:
+                    if not (range_start == ground_truth["heap"][0] and range_end == ground_truth["heap"][1]):
+                        self.error(r, ground_truth["heap"])
+                    else:
+                        continue
+            
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+            
+    def __del__(self):
+        if self.child_pid == 0:
+            os._exit(0)
+        else:
+            os.kill(self.child_pid, signal.SIGTERM)
+
+# TODO: explore the program segment header
+
+# TODO: explore the stack and heap
+
+# TODO: explore the dynamic linking: PIE-ASLR / got-plt / .so
+
+# TODO: explore the program memory space and calling convention
+
+# TODO: get the target memory of variable in the source code
 
 if __name__ == "__main__":
     challenge = globals()[f"IntroLevel{level}"]
