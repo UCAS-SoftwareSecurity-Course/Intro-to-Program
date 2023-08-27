@@ -579,12 +579,18 @@ class ELFBase():
 
         print_split_line()
     
-    def check_hash(self, correct: str):
+    def check_hash(self, correct: str, offset = None):
         """
         check the correct hash of the submitted file
         """
-        with open(self.submitted_file_path, 'rb') as f:
-            submitted_hash = hashlib.sha256(f.read()).hexdigest()
+        if not offset:
+            with open(self.submitted_file_path, 'rb') as f:
+                submitted_hash = hashlib.sha256(f.read()).hexdigest()
+        
+        else:
+            with open(self.submitted_file_path, 'rb') as f:
+                f.seek(offset)
+                submitted_hash = hashlib.sha256(f.read()).hexdigest()
         
         return submitted_hash == correct
 
@@ -2726,7 +2732,65 @@ class IntroLevel38(ELFBase):
         else:
             os.kill(self.child_pid, signal.SIGTERM)
 
-# TODO: explore the program segment header
+class IntroLevel39(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            In the previous challenge, we have explored the basic memory layout of a process, but how
+            does an ELF executable file get loaded into memory? In this challenge, we will explore 
+            the ELF program header table, which is used to describe the memory layout of an ELF executable file.
+            
+            Operating system actually does not care about the detailed data in ELF sections, it mainly 
+            cares about the privileges of each section, such as whether the section is readable, writable, or executable.
+            So some ELF sections with the same privileges can be merged into one `Segment`. 
+            
+            `Segment` is created by the linker, and the structure used to describe `Segment` is `Program Header`. 
+            Only ELF executable files and shared libraries have `Program Header Tables`, which is an array of 
+            `Elf64_Phdr` structures, each such structure defines a `Segment`.
+            
+            ```
+            typedef struct {{
+                Elf64_Word    p_type;   /* Segment type : LOAD / DYNAMIC / INTERP / ... */
+                Elf64_Word    p_flags;  /* Segment flags : R / W / X  */
+                Elf64_Off     p_offset; /* Segment file offset : Segment's offset in the ELF file */
+                Elf64_Addr    p_vaddr;  /* Segment virtual address : Segment's virtual address in the process's virtual address space */
+                Elf64_Addr    p_paddr;  /* Segment physical address : same as virtual address in most cases */
+                Elf64_Xword   p_filesz; /* Segment size in file : Segment's size in the ELF file */
+                Elf64_Xword   p_memsz;  /* Segment size in memory : Segment's size in the process's virtual address space */
+                Elf64_Xword   p_align;  /* Segment alignment : Segment's alignment attribute, it p_align is 10, then the 
+                                           segment's address should be 2^10 aligned */
+            }} Elf64_Phdr;                          
+            ```
+                                       
+            In this challenge, we provide you with an ELF executable file, but I modified 1 byte in the ELF file, and I found this
+            ELF file can not be executed normally, can you help me fix it?
+                                       
+            ** Your task **:
+            1. Fix the `level{level}` we provided, make it pass the check. You just need to patch 1 byte in the program header table.
+        """)
+        hint = description(f"""
+        Hint:
+             1. use `readelf -l <ELF_file>` to check the Program Header Table of the ELF file.
+             2. use `readelf -h <ELF_file>` to check the ELF Header of the ELF file.
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+
+    def check(self):
+        self.run()
+
+        if not (self.binary_type == lief.ELF.E_TYPE.EXECUTABLE or self.binary_type == lief.ELF.E_TYPE.DYNAMIC):
+            print("The type of the binary should be ELF executable file!")
+            sys.exit(1)
+
+        if not all([
+            self.check_hash("4228c8043f79c624e6c71af887eb372d8c89d6446453cef5d740038dcb5b28df")
+        ]):
+            print("The hash of the binary is not correct! Maybe you have patched the wrong bytes?")
+            sys.exit(1)
+        
+        print("Congratulations! You have passed this challenge! Following is your sesame:")
+        get_sesame()
 
 # TODO: explore the stack and heap
 
