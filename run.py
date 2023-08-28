@@ -50,6 +50,7 @@ readline.set_completer(completer)
 
 config = (pathlib.Path(__file__).parent / ".config").read_text().strip()
 level = int(config)
+os.chdir("/challenge")
 
 description = textwrap.dedent
 
