@@ -3036,7 +3036,109 @@ class IntroLevel41(ELFBase):
             print("You failed to pass this challenge!")
             sys.exit(1)
 
-# TODO: introduce the program memory space, using variable and asserts to teaching the growth of stack (call and stack variables) and heap. For example, for 4 stack variables and 3 call-chains to demonstrate the stack is growing from high address to low address. 
+
+class IntroLevel42(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            In this challenge, you will learn basic knowledge about a process's memory layout in Linux.
+            Following is a simple ascii flow graph to show the memory layout of a process:
+            ```
+            +------------------------------+
+            |  Kernel Space                |
+            |  (User code can not r/w)     |
+            |                              |
+            +------------------------------+
+            |                              |
+            +------------------------------+ Higher Address
+            |    Environment Variables     |
+            +------------------------------+
+            |   Command Line Arguments     |
+            +------------------------------+
+            |                              +---> Random Stack offset
+            +-------------------------+----+
+            |                         |    |
+            |     stack (grows down)  |    |
+            |                         v    |
+            +------------------------------+
+            |                              +---> Random mmap offset
+            +-----------------------+------+
+            |                       |      |
+            |      Memory Mapping   |      |
+            |      (libc.so ...)    v      |
+            |                              |
+            +------------------------------+
+            |                              |
+            |                              |
+            |                              |
+            +------------------------------+
+            |                              |
+            |                        ^     |
+            |       Heap (grows up)  |     |
+            |                        |     |
+            +------------------------+-----+
+            |                              +----> Random heap offset
+            |                              |
+            +------------------------------+
+            |       Bss of ELF             +----> Filled with zero
+            +------------------------------+
+            |                              |
+            |       Data Segment of ELF    |
+            |                              |
+            +------------------------------+
+            |                              |
+            |       Code Segment of ELF    |
+            |                              |
+            +------------------------------+ Lower Address
+            |       Reserved               |
+            +------------------------------+ 0
+            ```
+
+            In this challenge, you should remember that stack grows down, heap grows up.
+                                       
+            ** Your task **:
+            1. Read the source code of `level42.c`,
+            2. Input the function call chain, these functions will be called recursively.
+            3. Input all correct function call chains to pass the check.
+                                       
+        """)
+        hint = description(f"""
+        Hint:
+             1. Calling a function will allocate some space (stack frame) on the stack.
+             2. Calling `malloc` will allocate some space on the heap.
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def check(self):
+        process = subprocess.Popen("./level42", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        outputs = ""
+        while True:
+            output_line = process.stdout.readline()
+            outputs += output_line
+            if not output_line:
+                break
+            print(output_line.strip())
+
+            if "Please input the correct function chain to pass the assertion (e.g. foo-bar-boo):" in output_line:
+                target_addr = input("function call chain > ")
+                process.stdin.write(target_addr + "\n")
+                process.stdin.flush()
+
+        remaining_output, errors = process.communicate()
+        outputs += remaining_output
+        
+        if errors:
+            print("Program errors:", errors.strip())
+            sys.exit(1)
+        
+        if "Congratulation!" in outputs:
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+        else:
+            print("You failed to pass this challenge!")
+            sys.exit(1)
 
 # TODO: introduce the calling convention and stack frame in a function, using assert and argc/argv (get offset) for students to understand stack frame
 
