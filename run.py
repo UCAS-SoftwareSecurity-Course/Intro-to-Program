@@ -3224,6 +3224,60 @@ class IntroLevel43(ELFBase):
             print("You failed to pass this challenge!")
             sys.exit(1)
 
+class IntroLevel44(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            You haved learned about the stack frame of functions in the previous challenge, but how does
+            the arguments of a caller function pass to the callee function? In this challenge, you will
+            learn about some things about function calling conventions.
+            
+            I think it's time for you to explore some knowledge by yourself, so I will not give you any
+            pre-knowledge here.
+
+            ** Your task **:
+            1. Read the source code of `level{level}.c`,
+            2. Using gdb to debug the given `level{level}` ELF executable file, explore calling conventions.
+            3. Give correct arguments to pass the check.
+        """)
+        hint = description(f"""
+        Hint:
+             1. No hint :)
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def check(self):
+        print("Write your arguments here. For example, if you want to run your program like `./level44 1 2 3`, you should input `1 2 3` here.")
+        args = input("args > ")
+        args = args.strip().split(" ")
+        full_args = ["./level44"] + args
+
+        process = subprocess.Popen(full_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        outputs = ""
+        while True:
+            output_line = process.stdout.readline()
+            outputs += output_line
+            if not output_line:
+                break
+            print(output_line.strip())
+
+        remaining_output, errors = process.communicate()
+        outputs += remaining_output
+        
+        if errors:
+            print("Program errors:", errors.strip())
+            sys.exit(1)
+        
+        if "Congratulation!" in outputs:
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+        else:
+            print("You failed to pass this challenge!")
+            sys.exit(1)
+
+
 # TODO: get the target memory of variable in the source code, also using assert and argc/argv(get range/offset) for students to understand stack frame
 
 if __name__ == "__main__":
