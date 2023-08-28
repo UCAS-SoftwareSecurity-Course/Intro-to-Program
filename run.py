@@ -2792,13 +2792,110 @@ class IntroLevel39(ELFBase):
         print("Congratulations! You have passed this challenge! Following is your sesame:")
         get_sesame()
 
-# TODO: explore the stack and heap
 
-# TODO: explore the dynamic linking: PIE-ASLR / got-plt / .so
+class IntroLevel40(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            In this challenge, we will explore the basic knowledge of dynamic linking. In your computer,
+            most of the programs are dynamically linked, because dynamic linking can reduce the size of
+            executable files, and it can also reduce the memory consumption of processes.
+            
+            For a dynamically linked ELF executable file, the dynamic linker (maybe `ld-linux-xxx.so.2`)
+            is needed to load the executable, and the dynamic linker will also load the shared libraries
+            (`.so` files, like libc.so) needed by the executable file into the process's virtual address space.
+            You can use `ldd <ELF_file>` to check the shared libraries needed by the executable file.
+                                       
+            In this challenge, we provide you with a dynamically linked ELF executable file (`level40`) and 
+            a shared library (`liblevel40.so`)
+            
+            ** Your task **:
+            1. Run the `level40` executable file, and give me the PID of the process.
+            2. You should submit a file containing the virtual address ranges where `printf` function and 
+                `my_swap` function are loaded.
+                for example:
+                ```
+                0x400000-0x401000
+                0x401000-0x402000
+                ```
+        """)
+        hint = description(f"""
+        Hint:
+             1. `LD_LIBRARY_PATH` is your friend :)
+        """)
 
-# TODO: explore the program memory space and calling convention
+        self.description = task_description + hint
+        print(self.description)
 
-# TODO: get the target memory of variable in the source code
+    def ground_truth(self, pid):
+        res = subprocess.check_output(f"cat /proc/{pid}/maps", shell=True).decode().strip()
+        entries = res.split("\n")
+
+        result = { }
+
+        for entry in entries:
+            ranges = entry.split(" ")[0]
+            range_start, range_end = ranges.split("-")
+            range_start = int(range_start, 16)
+            range_end = int(range_end, 16)
+            if "libc.so.6" in entry and "r-xp" in entry:
+                result["libc"] = (range_start, range_end)
+            if "liblevel40.so" in entry and "r-xp" in entry:
+                result["liblevel40"] = (range_start, range_end)
+        
+        return result
+
+    def error(self, submit, ground_truth):
+        print("The virtual address range is not correct!")
+        print(f"Your range: {submit}")
+        print(f"Ground truth: {hex(ground_truth[0])}-{hex(ground_truth[1])}")
+        sys.exit(1)
+
+    def check(self):
+        pid = input("PID > ")
+        if not pid.isdigit():
+            print("PID should be a number!")
+            sys.exit(1)
+
+        ground_truth = self.ground_truth(pid)
+        
+        self.get_submitted_file()
+        with open(self.submitted_file_path, "r") as f:
+            content = f.read().strip()
+        
+        ranges = content.split("\n")
+        if len(ranges) != 2:
+            print("You should submit 2 virtual address ranges!")
+            sys.exit(1)
+
+        for i in range(len(ranges)):
+            r = ranges[i]
+            range_start = int(r.split("-")[0], 16)
+            range_end = int(r.split("-")[1], 16)
+
+            if i == 0:
+                if not (range_start == ground_truth["libc"][0] and range_end == ground_truth["libc"][1]):
+                    self.error(r, ground_truth["libc"])
+                else:
+                    continue
+            if i == 1:
+                if not (range_start == ground_truth["liblevel40"][0] and range_end == ground_truth["liblevel40"][1]):
+                    self.error(r, ground_truth["liblevel40"])
+                else:
+                    continue
+        
+        print("Congratulations! You have passed this challenge! Following is your sesame:")
+        get_sesame()
+
+
+# TODO: create a normal ELF dynamic linking file, let students to explore the ld and .so in the program memory space, assocaited with libc function's address, like printf...
+
+# TODO: introduce the got and plt, using assert and argc/argv to judge what address is in the got.
+
+# TODO: introduce the program memory space, using variable and asserts to teaching the growth of stack (call and stack variables) and heap. For example, for 4 stack variables and 3 call-chains to demonstrate the stack is growing from high address to low address. 
+
+# TODO: introduce the calling convention and stack frame in a function, using assert and argc/argv (get offset) for students to understand stack frame
+
+# TODO: get the target memory of variable in the source code, also using assert and argc/argv(get range/offset) for students to understand stack frame
 
 if __name__ == "__main__":
     challenge = globals()[f"IntroLevel{level}"]
