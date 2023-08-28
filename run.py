@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/pwn.college/python
 # -*- coding: utf-8 -*-
 # Author: h1k0
 # Created: 2023-05-17
@@ -55,7 +55,7 @@ description = textwrap.dedent
 
 def get_sesame():
     # just like read flag
-    sesame = pathlib.Path("../../flag").read_text().strip()
+    sesame = pathlib.Path("/flag").read_text().strip()
     os.write(1, f"{sesame}\n".encode())
 
 def current_field_name(node: tree_sitter.Node) -> str:

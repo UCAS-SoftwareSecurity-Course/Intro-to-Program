@@ -14,9 +14,13 @@ modules:
 
   - id: preprocess
     name: Preprocess
-    description: This is a simple program lab.
+    description: Welcome to the Preprocess module.
 
     challenges:
+      - id: level1
+        name: level1
+        description: Start and finish the challenge.
+
       - id: level2
         name: level2
         description: Start and finish the challenge.
@@ -164,6 +168,6 @@ modules:
     description: This is a simple program lab.
 
     challenges:
-      - id: level35-linking
+      - id: level35
         name: level35
         description: Start and finish the challenge.
