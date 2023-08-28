@@ -3277,8 +3277,54 @@ class IntroLevel44(ELFBase):
             print("You failed to pass this challenge!")
             sys.exit(1)
 
+class IntroLevel45(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            This is your final challenge, if you finish this challenge, you should have
+            confidence that you can solve many software security problems in the future.
 
-# TODO: get the target memory of variable in the source code, also using assert and argc/argv(get range/offset) for students to understand stack frame
+            ** Your task **:
+            1. Read the source code of `level{level}.c`,
+            2. Using gdb to debug the given `level{level}` ELF executable file.
+            3. Give correct "variable ranges" to pass the check.
+        """)
+        hint = description(f"""
+        Hint:
+             1. Your input range looks like `0x400000-0x401000`.
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def check(self):
+        process = subprocess.Popen(f"./level{level}", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        outputs = ""
+        while True:
+            output_line = process.stdout.readline()
+            outputs += output_line
+            if not output_line:
+                break
+            print(output_line.strip())
+
+            if "Input the range" in output_line:
+                var_range = input("variable range > ")
+                process.stdin.write(var_range + "\n")
+                process.stdin.flush()
+
+        remaining_output, errors = process.communicate()
+        outputs += remaining_output
+        
+        if errors:
+            print("Program errors:", errors.strip())
+            sys.exit(1)
+        
+        if "Congratulation!" in outputs:
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+        else:
+            print("You failed to pass this challenge!")
+            sys.exit(1)
 
 if __name__ == "__main__":
     challenge = globals()[f"IntroLevel{level}"]
