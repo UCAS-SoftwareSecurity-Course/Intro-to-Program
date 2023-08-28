@@ -19,7 +19,7 @@ int main() {
     char key_buffer[0x20] = "PoSSLab_is_Easy!";
     unsigned int buffer_len;
 
-    printf("Welcome to level40!\n");
+    printf("Welcome to level41!\n");
     printf("Current process's PID: %d\n", getpid());
 
     printf("Following is a demo for plt lazy binding.\n");
