@@ -967,6 +967,37 @@ def print_split_line():
     Following are the challenges of each level
 """
 
+class IntroLevel1(ELFBase):
+    def __init__(self):
+
+        challenge_description = description(f"""
+        Welcome to the challenges of Program Generation and Execution!
+        In the subsequent challenges, you will face the monsters of Preprocess,
+        Compilation, Assembly, Linking, and Execution. 
+        
+        Don't be afraid, we will guide you step by step to defeat them.
+        
+        After defeating them, I believe that you will be stronger and more confident,
+        and you can defeat more powerful monsters in the future.
+                                            
+        Now, let's start our journey!
+                                            
+        In this challenge, we present you with the code level{level}.c.
+
+        ** Your task **:
+        1. using `clang -o <executable_file_name> level{level}.c` to compile the given code.
+        2. submit the generated executable file `level{level}` to pass this challenge.
+        """)
+
+        print(challenge_description)
+
+    def check(self):
+        self.run()
+        if not (self.binary_type == lief.ELF.E_TYPE.EXECUTABLE or self.binary_type == lief.ELF.E_TYPE.DYNAMIC):
+            print("The type of the binary should be ELF executable file!")
+            sys.exit(1)
+        get_sesame()
+
 class IntroLevel2(PreprocessAnalyzeBase):
     def __init__(self):
         super().__init__()
