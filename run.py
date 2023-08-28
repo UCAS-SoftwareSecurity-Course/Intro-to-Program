@@ -3140,7 +3140,89 @@ class IntroLevel42(ELFBase):
             print("You failed to pass this challenge!")
             sys.exit(1)
 
-# TODO: introduce the calling convention and stack frame in a function, using assert and argc/argv (get offset) for students to understand stack frame
+class IntroLevel43(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            In this challenge, you will learn what is `stack frame` in Linux x86-64.
+            Following is a simple ascii flow graph to show the stack frame of a function:
+            ```
+            +-----------------+ Higher Address
+            |                 |
+            |                 |
+            |                 |
+            |                 |
+            | caller's        |
+            | stack frame     |
+            +-----------------+
+            | return addr     |
+            +-----------------+
+            | caller's rbp    | <----------+ rbp
+            +-----------------+
+            | (canary)        |
+            +-----------------+
+            |                 |
+            | callee's local  |
+            | variable        |
+            |                 |
+            | (buffer)        |
+            +-----------------+
+            | (offset)        |
+            +-----------------+
+            |                 |
+            |                 |  <---------+ rsp
+            |                 |
+            | ...             |
+            | ...             |
+            |                 |
+            |                 |
+            |                 |
+            |                 |
+            +-----------------+ Lower Address
+            ```
+
+            ** Your task **:
+            1. Read the source code of `level{level}.c`,
+            2. Using gdb to debug the given `level{level}` ELF executable file, explore the stack frame of functions.
+            3. Input the correct value to pass the check.
+        """)
+        hint = description(f"""
+        Hint:
+             1. For an ELF executable file, the stack address of its processes is different, but the offsets
+                of the variables in the stack frame are the same. 
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def check(self):
+        process = subprocess.Popen("./level43", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        outputs = ""
+        while True:
+            output_line = process.stdout.readline()
+            outputs += output_line
+            if not output_line:
+                break
+            print(output_line.strip())
+
+            if "Please input" in output_line:
+                target_addr = input("input > ")
+                process.stdin.write(target_addr + "\n")
+                process.stdin.flush()
+
+        remaining_output, errors = process.communicate()
+        outputs += remaining_output
+        
+        if errors:
+            print("Program errors:", errors.strip())
+            sys.exit(1)
+        
+        if "Congratulation!" in outputs:
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+        else:
+            print("You failed to pass this challenge!")
+            sys.exit(1)
 
 # TODO: get the target memory of variable in the source code, also using assert and argc/argv(get range/offset) for students to understand stack frame
 
