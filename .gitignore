@@ -5,3 +5,5 @@ script_*
 flag
 level38.c
 *level40.c
+.gdb_history
+.vscode

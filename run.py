@@ -2887,9 +2887,154 @@ class IntroLevel40(ELFBase):
         get_sesame()
 
 
-# TODO: create a normal ELF dynamic linking file, let students to explore the ld and .so in the program memory space, assocaited with libc function's address, like printf...
+class IntroLevel41(ELFBase):
+    def __init__(self):
+        task_description = description(f"""
+            In Linux ELF, PLT(Procedure Linkage Table) and GOT(Global Offset Table) are two ** important ** 
+            concepts, which are used to implement dynamic linking. 
+            
+            PLT is a series of code blocks in ELF used to implement external function jumps. When a program
+            calls a function in a shared library, the program actually calls the corresponding PLT entry first.
+            The main purpose of PLT is to implement lazy binding, which means that the function address will 
+            be resolved when the function is called for ** the first time **, and the resolved address will be cached
+            in GOT. This will reduce the time spent on dynamic linking.
+                                       
+            GOT is a series of data blocks in ELF used to store the addresses of external functions. Initially,
+            the value in a GOT entry is the address of the 2nd instruction of the corresponding PLT entry, which
+            can be used to resolve the address of the external function. After the function is called for the first
+            time, the true address of the external function will be cached in GOT.
 
-# TODO: introduce the got and plt, using assert and argc/argv to judge what address is in the got.
+            Following is a simple ascii flow graph to show how PLT and GOT work together:
+            ```
+                      +-------------------------------------------------+
+                      |                                                 |
+                      |  +--------------------------------------------+ |
+                      |  | .text                                      | |
+                      |  |                                            | |
+                      |  |      ...                                   | |
+                      |  |      ...                                   | |
+            +-----------------+ 400637: jmp 400480 <memcmp@plt>       | |
+            |         |  |      ...                                   | |
+            |         |  |      ...                                   | |
+            |         |  +--------------------------------------------+ |
+            | 1st step|                                                 |
+            |         |                                                 |
+            |         |  +--------------------------------------------+ |
+            |         |  | .plt                                       | |
+            |         |  |                                            | |
+            |         |  |      ...                                   | |
+            +-----------------> 400480: jmp 601028 <memcmp@got> +---------------+
+            +-----------------> 400486: push 0x2                      | |       |
+            |         |  |      40048b: jmp 400450 <.plt>             | |       |
+            |         |  |      ...                                   | |       |
+            |         |  |                                            | |       |
+            |         |  |                                            | |       |
+            |         |  +--------------------------------------------+ |       |
+            | 3rd step|                                                 | 2nd step
+            |         |                                                 |       |
+            |         |  +--------------------------------------------+ |       |
+            |         |  |                                            | |       |
+            |         |  | .got                                       | |       |
+            |         |  |      ...                                   | |       |
+            +----------------+  601028: 0x400486      <-------------------------+
+                      |  |      ...                                   | |
+                      |  |                                            | |
+                      |  +--------------------------------------------- |
+                      |                                                 |
+                      +-------------------------------------------------+
+                                call memcmp function 1st time
+                                       
+
+                      +-------------------------------------------------+
+                      |                                                 |
+                      |  +--------------------------------------------+ |
+                      |  | .text                                      | |
+                      |  |                                            | |
+                      |  |      ...                                   | |
+                      |  |      ...                                   | |
+            +-----------------+ 400637: jmp 400480 <memcmp@plt>       | |
+            |         |  |      ...                                   | |
+            |         |  |      ...                                   | |
+            |         |  +--------------------------------------------+ |
+            | 1st step|                                                 |
+            |         |                                                 |
+            |         |  +--------------------------------------------+ |
+            |         |  | .plt                                       | |
+            |         |  |                                            | |
+            |         |  |      ...                                   | |
+            +-----------------> 400480: jmp 601028 <memcmp@got> +---------------+
+                      |  |      400486: push 0x2                      | |       |
+                      |  |      40048b: jmp 400450 <.plt>             | |       |
+                      |  |      ...                                   | |       |
+                      |  |                                            | |       |
+                      |  |                                            | |       |
+                      |  +--------------------------------------------+ |       +
+                      |                                                 | 2nd step
+                      |                                                 |       +
+                      |  +--------------------------------------------+ |       |
+                      |  |                                            | |       |
+                      |  | .got                                       | |       |
+                      |  |      ...                                   | |       |
+                      |  |      601028: <memcmp@libc.so>   <--------------------+
+                      |  |      ...                                   | |
+                      |  |                                            | |
+                      |  +--------------------------------------------+ |
+                      |                                                 |
+                      +-------------------------------------------------+
+                                call memcmp function 2nd time
+           
+            ```
+
+            In this challenge, you will explore the PLT and GOT of a dynamically linked ELF executable file.
+            and try to finish a baby GOT hijacking to pass the check.
+
+            ** Your task **:
+            1. Using gdb to debug the given `level41` ELF executable file, explore how PLT and GOT work together.
+            2. You have one chance to modify the process's memory, try to pass the check.
+                                       
+        """)
+        hint = description(f"""
+        Hint:
+             1. No hint :)
+        """)
+
+        self.description = task_description + hint
+        print(self.description)
+    
+    def check(self):
+        process = subprocess.Popen("./level41", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+
+        outputs = ""
+        while True:
+            output_line = process.stdout.readline()
+            outputs += output_line
+            if not output_line:
+                break
+            print(output_line.strip())
+
+            if "Please input the target memory address you want to hijack:" in output_line:
+                target_addr = input("target address > ")
+                process.stdin.write(target_addr + "\n")
+                process.stdin.flush()
+            
+            if "Please input the value you want to write:" in output_line:
+                value = input("value > ")
+                process.stdin.write(value + "\n")
+                process.stdin.flush()
+
+        remaining_output, errors = process.communicate()
+        outputs += remaining_output
+        
+        if errors:
+            print("Program errors:", errors.strip())
+            sys.exit(1)
+        
+        if "Congratulation!" in outputs:
+            print("Congratulations! You have passed this challenge! Following is your sesame:")
+            get_sesame()
+        else:
+            print("You failed to pass this challenge!")
+            sys.exit(1)
 
 # TODO: introduce the program memory space, using variable and asserts to teaching the growth of stack (call and stack variables) and heap. For example, for 4 stack variables and 3 call-chains to demonstrate the stack is growing from high address to low address. 
 
