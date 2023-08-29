@@ -125,19 +125,6 @@ struct _IO_FILE
   int _mode;
   char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];
 };
-typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
-                                          size_t __nbytes);
-typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
-                                           size_t __nbytes);
-typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
-typedef int cookie_close_function_t (void *__cookie);
-typedef struct _IO_cookie_io_functions_t
-{
-  cookie_read_function_t *read;
-  cookie_write_function_t *write;
-  cookie_seek_function_t *seek;
-  cookie_close_function_t *close;
-} cookie_io_functions_t;
 typedef __gnuc_va_list va_list;
 typedef __off_t off_t;
 typedef __ssize_t ssize_t;
@@ -149,7 +136,7 @@ extern int remove (const char *__filename) __attribute__ ((__nothrow__ ));
 extern int rename (const char *__old, const char *__new) __attribute__ ((__nothrow__ ));
 extern int renameat (int __oldfd, const char *__old, int __newfd,
        const char *__new) __attribute__ ((__nothrow__ ));
-extern int fclose (FILE *__stream) __attribute__ ((__nonnull__ (1)));
+extern int fclose (FILE *__stream);
 extern FILE *tmpfile (void)
   __attribute__ ((__malloc__)) ;
 extern char *tmpnam (char[20]) __attribute__ ((__nothrow__ )) ;
@@ -163,12 +150,8 @@ extern FILE *fopen (const char *__restrict __filename,
   __attribute__ ((__malloc__)) ;
 extern FILE *freopen (const char *__restrict __filename,
         const char *__restrict __modes,
-        FILE *__restrict __stream) __attribute__ ((__nonnull__ (3)));
+        FILE *__restrict __stream) ;
 extern FILE *fdopen (int __fd, const char *__modes) __attribute__ ((__nothrow__ ))
-  __attribute__ ((__malloc__)) ;
-extern FILE *fopencookie (void *__restrict __magic_cookie,
-     const char *__restrict __modes,
-     cookie_io_functions_t __io_funcs) __attribute__ ((__nothrow__ ))
   __attribute__ ((__malloc__)) ;
 extern FILE *fmemopen (void *__s, size_t __len, const char *__modes)
   __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__)) ;
@@ -196,15 +179,6 @@ extern int snprintf (char *__restrict __s, size_t __maxlen,
 extern int vsnprintf (char *__restrict __s, size_t __maxlen,
         const char *__restrict __format, __gnuc_va_list __arg)
      __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 3, 0)));
-extern int vasprintf (char **__restrict __ptr, const char *__restrict __f,
-        __gnuc_va_list __arg)
-     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 0))) ;
-extern int __asprintf (char **__restrict __ptr,
-         const char *__restrict __fmt, ...)
-     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 3))) ;
-extern int asprintf (char **__restrict __ptr,
-       const char *__restrict __fmt, ...)
-     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 3))) ;
 extern int vdprintf (int __fd, const char *__restrict __fmt,
        __gnuc_va_list __arg)
      __attribute__ ((__format__ (__printf__, 2, 0)));
@@ -285,7 +259,7 @@ extern int ferror (FILE *__stream) __attribute__ ((__nothrow__ )) ;
 extern void clearerr_unlocked (FILE *__stream) __attribute__ ((__nothrow__ ));
 extern int feof_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
 extern int ferror_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
-extern void perror (const char *__s) __attribute__ ((__cold__));
+extern void perror (const char *__s);
 extern int fileno (FILE *__stream) __attribute__ ((__nothrow__ )) ;
 extern int fileno_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
 extern int pclose (FILE *__stream);
@@ -354,8 +328,6 @@ extern char *strchr (const char *__s, int __c)
      __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
 extern char *strrchr (const char *__s, int __c)
      __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
-extern char *strchrnul (const char *__s, int __c)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
 extern size_t strcspn (const char *__s, const char *__reject)
      __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
 extern size_t strspn (const char *__s, const char *__accept)
@@ -373,18 +345,6 @@ extern char *__strtok_r (char *__restrict __s,
 extern char *strtok_r (char *__restrict __s, const char *__restrict __delim,
          char **__restrict __save_ptr)
      __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2, 3)));
-extern char *strcasestr (const char *__haystack, const char *__needle)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
-extern void *memmem (const void *__haystack, size_t __haystacklen,
-       const void *__needle, size_t __needlelen)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 3)))
-                                         ;
-extern void *__mempcpy (void *__restrict __dest,
-   const void *__restrict __src, size_t __n)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
-extern void *mempcpy (void *__restrict __dest,
-        const void *__restrict __src, size_t __n)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
 extern size_t strlen (const char *__s)
      __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
 extern size_t strnlen (const char *__string, size_t __maxlen)
@@ -431,12 +391,6 @@ extern char *__stpncpy (char *__restrict __dest,
 extern char *stpncpy (char *__restrict __dest,
         const char *__restrict __src, size_t __n)
      __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
-extern size_t strlcpy (char *__restrict __dest,
-         const char *__restrict __src, size_t __n)
-  __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2))) ;
-extern size_t strlcat (char *__restrict __dest,
-         const char *__restrict __src, size_t __n)
-  __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2))) ;
 typedef int wchar_t;
 typedef struct
   {
@@ -786,12 +740,6 @@ extern int seed48_r (unsigned short int __seed16v[3],
 extern int lcong48_r (unsigned short int __param[7],
         struct drand48_data *__buffer)
      __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
-extern __uint32_t arc4random (void)
-     __attribute__ ((__nothrow__ )) ;
-extern void arc4random_buf (void *__buf, size_t __size)
-     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1)));
-extern __uint32_t arc4random_uniform (__uint32_t __upper_bound)
-     __attribute__ ((__nothrow__ )) ;
 extern void *malloc (size_t __size) __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__))
                                          ;
 extern void *calloc (size_t __nmemb, size_t __size)
