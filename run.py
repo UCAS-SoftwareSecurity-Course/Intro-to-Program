@@ -50,7 +50,6 @@ readline.set_completer(completer)
 
 config = (pathlib.Path(__file__).parent / ".config").read_text().strip()
 level = int(config)
-os.chdir("/challenge")
 
 description = textwrap.dedent
 
@@ -114,7 +113,7 @@ Class PreprocessAnalyzeBase is the base class of challenges related to preproces
 """
 class PreprocessAnalyzeBase():
     def __init__(self):
-        C_LANGUAGE = Language("./c-language.so", "c")
+        C_LANGUAGE = Language("/challenge/c-language.so", "c")
         self.parser = Parser()
         self.parser.set_language(C_LANGUAGE)
 
@@ -368,14 +367,14 @@ class PreprocessAnalyzeBase():
         try:
             if not defined_macros:
                 with tempfile.TemporaryFile() as temp_file, tempfile.TemporaryFile() as temp_file2:
-                    process = subprocess.Popen(["clang", "-E", "-P", "-x", "c", self.input_path], stdout=temp_file, stderr=temp_file2)
+                    process = subprocess.Popen(["clang-15", "-E", "-P", "-x", "c", self.input_path], stdout=temp_file, stderr=temp_file2)
                     process.wait()
                     temp_file.seek(0)
                     temp_file2.seek(0)
                     stdout = temp_file.read()
                     stderr = temp_file2.read()
             else:
-                command = ["clang", "-E", "-P", "-x", "c"]
+                command = ["clang-15", "-E", "-P", "-x", "c"]
                 for macro in defined_macros:
                     if macro["value"]:
                         command.append(f"-D{macro['name']}={macro['value']}")
@@ -390,7 +389,7 @@ class PreprocessAnalyzeBase():
                     stdout = temp_file.read()
                     stderr = temp_file2.read()
         except:
-            print("Can not run clang -E -P on your submitted code !")
+            print("Can not run clang-15 -E -P on your submitted code !")
             sys.exit(1)
         
         if stderr:
@@ -791,7 +790,7 @@ def get_preprocess_description(preprocessed_code):
     In this challenge, we present you with the preprocessed source code, 
     {preprocessed_code}. 
     This code constitutes simple programs that have been preprocessed 
-    using the 'clang -E -P' command. 
+    using the 'clang-15 -E -P' command. 
     Your task, guided by the description of the challenge, is to 
     restore the original source code from the given preprocessed code.
     ============================================================
@@ -829,9 +828,9 @@ def get_ast_description():
        Ignore line and column numbers, object addresses, etc.
 
     Hint:
-        1. You can use `clang -Xclang -ast-dump -fsyntax-only <source_code>` to 
+        1. You can use `clang-15 -Xclang -ast-dump -fsyntax-only <source_code>` to 
            dump the AST of the source code.
-        2. You can use `clang -Xclang -ast-dump -fsyntax-only -fno-color-diagnostics <source_code>` 
+        2. You can use `clang-15 -Xclang -ast-dump -fsyntax-only -fno-color-diagnostics <source_code>` 
            to dump the AST of the source code without color.
         3. Your submitted code is a fixed version of `level{level}.c`.
     """)
@@ -914,7 +913,7 @@ def get_object_file_description():
     is important for comprehending what is Program.
 
     You can get a relocatable object file by using the following command.
-    1. run `clang -c -o <object_file> <source_code / asm_code>` to generate a 
+    1. run `clang-15 -c -o <object_file> <source_code / asm_code>` to generate a 
        relocatable object file from C source code or assembly code.
     2. run `llc -march=x86-64 -filetype=obj -o <object_file> <llvm_ir_code>` to 
        generate a relocatable object file from LLVM IR.
@@ -986,7 +985,7 @@ class IntroLevel1(ELFBase):
         In this challenge, we present you with the code level{level}.c.
 
         ** Your task **:
-        1. using `clang -o <executable_file_name> level{level}.c` to compile the given code.
+        1. using `clang-15 -o <executable_file_name> level{level}.c` to compile the given code.
         2. submit the generated executable file `level{level}` to pass this challenge.
         """)
 
@@ -1146,10 +1145,10 @@ class IntroLevel6(PreprocessAnalyzeBase):
         It's fascinating! I used the following 4 commands to preprocess the same source code 
         and ended up with four different files:
         {self.given_code}.
-        1. clang -E -P -DVERSION=1 [solve_level6.c]
-        2. clang -E -P -DVERSION=2 [solve_level6.c]
-        3. clang -E -P -DVERSION=3 [solve_level6.c]
-        4. clang -E -P -DVERSION=1 -DDEBUG [solve_level6.c]
+        1. clang-15 -E -P -DVERSION=1 [solve_level6.c]
+        2. clang-15 -E -P -DVERSION=2 [solve_level6.c]
+        3. clang-15 -E -P -DVERSION=3 [solve_level6.c]
+        4. clang-15 -E -P -DVERSION=1 -DDEBUG [solve_level6.c]
         Can you assist me in recovering the original source code?
         
         ** Your task **:
@@ -1250,9 +1249,9 @@ class IntroLevel8(PreprocessAnalyzeBase):
         
         include_dir = input_path.parent.resolve()
         try:
-            process = subprocess.Popen(["clang", "-E", "-P", "-x", "c", "-I", include_dir, self.given_code[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(["clang-15", "-E", "-P", "-x", "c", "-I", include_dir, self.given_code[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except:
-            print("Can not run clang -E -P on your submitted code !")
+            print("Can not run clang-15 -E -P on your submitted code !")
             sys.exit(1)
         process.wait()
         stdout, stderr = process.communicate()
@@ -1271,7 +1270,7 @@ class IntroLevel8(PreprocessAnalyzeBase):
 
         # if submitted code appears twice in preprocessed code, it means the code is not correct
         if preprocessed_submitted.count(submitted_code) < 2:
-            stdout, stderr = try_compile(["clang", "-x", "c", "-I", include_dir, "-o", "/dev/null", self.given_code[0]])
+            stdout, stderr = try_compile(["clang-15", "-x", "c", "-I", include_dir, "-o", "/dev/null", self.given_code[0]])
             if stderr:
                 print("Your submitted code is not correct !")
                 print(stderr)
@@ -1297,7 +1296,7 @@ class IntroLevel9(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
+        self.run(["clang-15", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
 
         given_trimmed = self.trim_ast(self.given_processed_code).strip()
         submitted_trimmed = self.trim_ast(self.submitted_processed_code).strip()
@@ -1321,7 +1320,7 @@ class IntroLevel10(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
+        self.run(["clang-15", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
 
         given_trimmed = self.trim_ast(self.given_processed_code).strip()
         submitted_trimmed = self.trim_ast(self.submitted_processed_code).strip()
@@ -1346,7 +1345,7 @@ class IntroLevel11(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
+        self.run(["clang-15", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
 
         given_trimmed = self.trim_ast(self.given_processed_code).strip()
         submitted_trimmed = self.trim_ast(self.submitted_processed_code).strip()
@@ -1371,7 +1370,7 @@ class IntroLevel12(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
+        self.run(["clang-15", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
 
         given_trimmed = self.trim_ast(self.given_processed_code).strip()
         submitted_trimmed = self.trim_ast(self.submitted_processed_code).strip()
@@ -1396,7 +1395,7 @@ class IntroLevel13(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
+        self.run(["clang-15", "-x", "c", "-Xclang", "-ast-dump", "-fsyntax-only", "-fno-color-diagnostics"])
 
         given_trimmed = self.trim_ast(self.given_processed_code).strip()
         submitted_trimmed = self.trim_ast(self.submitted_processed_code).strip()
@@ -1418,7 +1417,7 @@ class IntroLevel14(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. You just need to write an assignment statement, it's very simple, isn't it?
         """)
         self.description = compilation_description + challenge_description + task_description + hint
@@ -1426,7 +1425,7 @@ class IntroLevel14(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1449,7 +1448,7 @@ class IntroLevel15(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. Where are strings stored in LLVM IR?
         """)
         self.description = compilation_description + challenge_description + task_description + hint
@@ -1457,7 +1456,7 @@ class IntroLevel15(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1479,7 +1478,7 @@ class IntroLevel16(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. In LLVM IR, GEP (GetElementPtr) instructions is very important, you need to be familiar with it.
         """)
         self.description = compilation_description + challenge_description + task_description + hint
@@ -1487,7 +1486,7 @@ class IntroLevel16(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1509,7 +1508,7 @@ class IntroLevel17(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. The `if/else` and `call` are the most common statements for modifying 
                the program's control flow. You should learn their representations in 
                LLVM IR. In addition, you also need to understand the concept of basic blocks
@@ -1520,7 +1519,7 @@ class IntroLevel17(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1542,14 +1541,14 @@ class IntroLevel18(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
         """)
         self.description = compilation_description + challenge_description + task_description + hint
         print(self.description)
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1571,7 +1570,7 @@ class IntroLevel19(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. I guess you won't find `while` and `for` in LLVM IR anymore. So how are they represented?
         """)
         self.description = compilation_description + challenge_description + task_description + hint
@@ -1579,7 +1578,7 @@ class IntroLevel19(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1602,7 +1601,7 @@ class IntroLevel20(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. In the C language, the "static" keyword will make a significant 
                difference in your code. Just using the "static" when complete your code.
         """)
@@ -1611,7 +1610,7 @@ class IntroLevel20(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1633,7 +1632,7 @@ class IntroLevel21(CompileBase):
         task_description = get_llvmir_task_description()
         hint = description(f"""
         Hint:
-            1. You can use `clang -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
+            1. You can use `clang-15 -S -c -emit-llvm -o <source.ll> <source.c>` to generate readable llvm-ir of a c file.
             2. "inline" is a common optimization technique in the C language 
                 used to reduce the overhead of function calls and improve program execution 
                 efficiency. You can use the `inline` keyword and `__attribute__((always_inline))`
@@ -1644,7 +1643,7 @@ class IntroLevel21(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -2715,7 +2714,7 @@ class IntroLevel38(ELFBase):
 
         if self.child_pid == 0:
             print_split_line()
-            os.execve("./level38", ["./level38"], {})
+            os.execve("/challenge/level38", ["/challenge/level38"], {})
         else:
             time.sleep(0.5)
             ground_truth = self.ground_truth(self.child_pid)
@@ -3034,7 +3033,7 @@ class IntroLevel41(ELFBase):
         print(self.description)
     
     def check(self):
-        process = subprocess.Popen("./level41", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen("/challenge/level41", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         outputs = ""
         while True:
@@ -3143,7 +3142,7 @@ class IntroLevel42(ELFBase):
         print(self.description)
     
     def check(self):
-        process = subprocess.Popen("./level42", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen("/challenge/level42", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         outputs = ""
         while True:
@@ -3227,7 +3226,7 @@ class IntroLevel43(ELFBase):
         print(self.description)
     
     def check(self):
-        process = subprocess.Popen("./level43", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen("/challenge/level43", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         outputs = ""
         while True:
@@ -3283,7 +3282,7 @@ class IntroLevel44(ELFBase):
         print("Write your arguments here. For example, if you want to run your program like `./level44 1 2 3`, you should input `1 2 3` here.")
         args = input("args > ")
         args = args.strip().split(" ")
-        full_args = ["./level44"] + args
+        full_args = ["/challenge/level44"] + args
 
         process = subprocess.Popen(full_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
@@ -3329,7 +3328,7 @@ class IntroLevel45(ELFBase):
         print(self.description)
     
     def check(self):
-        process = subprocess.Popen(f"./level{level}", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen(f"/challenge/level{level}", stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         outputs = ""
         while True:
