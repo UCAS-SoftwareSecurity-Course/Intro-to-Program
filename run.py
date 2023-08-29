@@ -915,7 +915,7 @@ def get_object_file_description():
     You can get a relocatable object file by using the following command.
     1. run `clang-15 -c -o <object_file> <source_code / asm_code>` to generate a 
        relocatable object file from C source code or assembly code.
-    2. run `llc -march=x86-64 -filetype=obj -o <object_file> <llvm_ir_code>` to 
+    2. run `llc-15 -march=x86-64 -filetype=obj -o <object_file> <llvm_ir_code>` to 
        generate a relocatable object file from LLVM IR.
     3. ... (You can also try other commands to generate object files)
     """)
@@ -1667,7 +1667,7 @@ class IntroLevel22(CompileBase):
         Hint:
              1. Transfer the memory access into register access is a common optimization. 
                 You should find the corresponding LLVM Pass's name.
-             2. You can use `opt -S -<pass-name> -o <output-file> <input-file>` to run 
+             2. You can use `opt-15 -S -<pass-name> -o <output-file> <input-file>` to run 
                 the built-in LLVM Pass.
              3. We give you the source code, you can read it to understand the meaning of 
                 the LLVM IR. If you want to compile the IR from source and try LLVM Passes, 
@@ -1682,7 +1682,7 @@ class IntroLevel22(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
+        command = ["opt-15", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1711,7 +1711,7 @@ class IntroLevel23(CompileBase):
              2. Many LLVM built-in passes only works on SSA form IR. In other words, we should 
                 run the `-mem2reg` pass first. Don't worry, we have done this for you. 
                 (level{level}.ll is already in SSA form)
-             3. You can use `opt -S -<pass-name> -o <output-file> <input-file>` to run the built-in LLVM Pass.
+             3. You can use `opt-15 -S -<pass-name> -o <output-file> <input-file>` to run the built-in LLVM Pass.
              4. We give you the source code, you can read it to understand the meaning of the LLVM IR. 
                 If you want to compile the IR from source and try LLVM Passes, remember to add the 
                 `-Xclang -disable-O0-optnone` option.
@@ -1725,7 +1725,7 @@ class IntroLevel23(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
+        command = ["opt-15", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1755,7 +1755,7 @@ class IntroLevel24(CompileBase):
              2. Many LLVM built-in passes only works on SSA form IR. In other words, we 
                 should run the `-mem2reg` pass first. Don't worry, we have done this for you. 
                 (level{level}.ll is already in SSA form)
-             3. You can use `opt -S -<pass-name> -o <output-file> <input-file>` to run the 
+             3. You can use `opt-15 -S -<pass-name> -o <output-file> <input-file>` to run the 
                 built-in LLVM Pass.
              4. We give you the source code, you can read it to understand the meaning 
                 of the LLVM IR. If you want to compile the IR from source and try LLVM Passes, 
@@ -1770,7 +1770,7 @@ class IntroLevel24(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
+        command = ["opt-15", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1811,14 +1811,14 @@ class IntroLevel25(CompileBase):
         """)
         hint = description(f"""
         Hint:
-             1. `llc` tool maybe useful.
+             1. `llc-15` tool maybe useful.
         """)
         self.description = challenge_description + task_description + hint
         print(self.description)
 
     def check(self):
         submitted_asm = self.get_submitted_file()
-        given_asm = self.try_process(["llc", "-march=x86-64", "-filetype=asm", "-x86-asm-syntax=intel", "-o", "-", self.given_processed_path])
+        given_asm = self.try_process(["llc-15", "-march=x86-64", "-filetype=asm", "-x86-asm-syntax=intel", "-o", "-", self.given_processed_path])
         if submitted_asm == given_asm:
             print("Congratulations! You have passed this challenge! Following is your sesame:")
             get_sesame()
