@@ -14,160 +14,242 @@ modules:
 
   - id: preprocess
     name: Preprocess
-    description: Welcome to the Preprocess module.
+    description: Welcome to the Preprocess module. In this module, you will learn some common techniques in C/C++ preprocess.
 
     challenges:
       - id: level1
         name: level1
-        description: Start and finish the challenge.
+        description: Your first challenge, hope you enjoy it.
 
       - id: level2
         name: level2
-        description: Start and finish the challenge.
+        description: try to `#define` constants.
       
       - id: level3
         name: level3
-        description: Start and finish the challenge.
+        description: try to `#define` strings.
       
       - id: level4
         name: level4
-        description: Start and finish the challenge.
+        description: try to `#define` functions and variables.
       
       - id: level5
         name: level5
-        description: Start and finish the challenge.
+        description: do-while-zero macro is a common trick.
       
       - id: level6
         name: level6
-        description: Start and finish the challenge.
+        description: conditional compilation is also a common technique.
       
       - id: level7
         name: level7
-        description: Start and finish the challenge.
+        description: do you know `#include`?
       
       - id: level8
         name: level8
-        description: Start and finish the challenge.
+        description: handle `#ifdef` and `#ifndef` correctly.
 
   - id: compilation
     name: Compilation
-    description: This is a simple program lab.
+    description: Welcome to the Compilation module, in this module, you will learn multiple compilation steps and learn basic knowledge about clang AST and LLVM IR.
 
     challenges:
       - id: level9
         name: level9
-        description: Start and finish the challenge.
+        description: basic assignment and arithmetic operations in clang AST.
       
       - id: level10
         name: level10
-        description: Start and finish the challenge.
+        description: array and pointer operations in clang AST.
       
       - id: level11
         name: level11
-        description: Start and finish the challenge.
+        description: control flow operations in clang AST.
       
       - id: level12
         name: level12
-        description: Start and finish the challenge.
+        description: struct and field operations in clang AST.
       
       - id: level13
         name: level13
-        description: Start and finish the challenge.
+        description: loop in clang AST.
       
       - id: level14
         name: level14
-        description: Start and finish the challenge.
+        description: basic assignment and arithmetic operations in LLVM IR
       
       - id: level15
         name: level15
-        description: Start and finish the challenge.
+        description: constant string in LLVM IR
 
       - id: level16
         name: level16
-        description: Start and finish the challenge.
+        description: array and pointer operations in LLVM IR
       
       - id: level17
         name: level17
-        description: Start and finish the challenge.
+        description: control flow operations in LLVM IR
       
       - id: level18
         name: level18
-        description: Start and finish the challenge.
+        description: field operations in LLVM IR
       
       - id: level19
         name: level19
-        description: Start and finish the challenge.
+        description: loop in LLVM IR
       
       - id: level20
         name: level20
-        description: Start and finish the challenge.
+        description: static and global variables in LLVM IR
       
       - id: level21
         name: level21
-        description: Start and finish the challenge.
+        description: do you know how to merge 2 funtions?
       
       - id: level22
         name: level22
-        description: Start and finish the challenge.
+        description: compilation optimization is performed on (LLVM) IR
 
       - id: level23
         name: level23
-        description: Start and finish the challenge.
+        description: compilation optimization is performed on (LLVM) IR
       
       - id: level24
         name: level24
-        description: Start and finish the challenge.
+        description: compilation optimization is performed on (LLVM) IR
       
       - id: level25
         name: level25
-        description: Start and finish the challenge.
+        description: try to generate a assembly file from LLVM IR
 
   - id: assembly
     name: Assembly
-    description: This is a simple program lab.
+    description: Welcome to the Assembly module. In this module, you will learn what is ELF.
 
     challenges:
       - id: level26
         name: level26
-        description: Start and finish the challenge.
+        description: try to compile a embryo ELF object file.
       
       - id: level27
         name: level27
-        description: Start and finish the challenge.
+        description: try to compile a baby ELF object file.
       
       - id: level28
         name: level28
-        description: Start and finish the challenge.
+        description: try to compile a baby ELF object file with custom section.
       
       - id: level29
         name: level29
-        description: Start and finish the challenge.
+        description: explore the ELF header.
       
       - id: level30
         name: level30
-        description: Start and finish the challenge.
+        description: explore the ELF Section.
       
       - id: level31
         name: level31
-        description: Start and finish the challenge.
+        description: explore the ELF Section Header Table.
       
       - id: level32
         name: level32
-        description: Start and finish the challenge.
+        description: explore the ELF Section Header Table.
 
       - id: level33
         name: level33
-        description: Start and finish the challenge.
+        description: what is a `symbol` in ELF?
       
       - id: level34
         name: level34
-        description: Start and finish the challenge.
+        description: explore the ELF Symbol Table.
 
   - id: linking
     name: Linking
-    description: This is a simple program lab.
+    description: Welcome to the Linking module. In this module, you will learn how to link multiple object files into a single executable file.
 
     challenges:
       - id: level35
         name: level35
-        description: Start and finish the challenge.
+        description: try to use `ld` to link multiple object files.
+      
+      - id: level36
+        name: level36
+        description: explore how `ld` works.
+
+      - id: level37
+        name: level37
+        description: try to link multiple object files into a single executable file and make it executable.
+
+  - id: execution
+    name: Execution
+    description: Welcome to the Execution module. In this module, you will learn how a program is executed and important concepts about memory.
+
+    challenges:
+      - id : level38
+        name: level38
+        description: try to execute a program and explore the memory layout of the program.
+      
+      - id : level39
+        name: level39
+        description: explore the program header table of the ELF file.
+
+      - id : level40
+        name: level40
+        description: introduce the dynamic linking.
+
+      - id : level41
+        name: level41
+        description: explore plt and got in an ELF executable file.
+      
+      - id : level42
+        name: level42
+        description: explore the basic program memory layout.
+      
+      - id: level43
+        name: level43
+        description: explore the stack frame of function call.
+
+      - id: level44
+        name: level44
+        description: explore the calling convention of function call.
+
+      - id: level45
+        name: level45
+        description: final challenge, try to find memory range of corrsponding `variable` in the process's memory.
+
+  - id: debugger
+    name: Debugger [Optional]
+    description: Welcome to the Debugger module. In this module, you will learn how to use gdb to debug a program.
+
+    challenges:
+      - id : level1
+        name: level1
+        description: ""
+
+      - id : level2
+        name: level2
+        description: ""
+
+      - id : level3
+        name: level3
+        description: ""
+
+      - id : level4
+        name: level4
+        description: ""
+
+      - id : level5
+        name: level5
+        description: ""
+
+      - id : level6
+        name: level6
+        description: ""
+
+      - id : level7
+        name: level7
+        description: ""
+
+      - id : level8
+        name: level8
+        description: ""
