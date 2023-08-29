@@ -1210,7 +1210,7 @@ class IntroLevel7(PreprocessAnalyzeBase):
         print("Congratulations! You have passed this challenge! Following is your sesame:")
         get_sesame()
 
-
+# TODO: bug fix
 class IntroLevel8(PreprocessAnalyzeBase):
     def __init__(self):
         super().__init__()
@@ -1425,7 +1425,7 @@ class IntroLevel14(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1456,7 +1456,7 @@ class IntroLevel15(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1486,7 +1486,7 @@ class IntroLevel16(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1519,7 +1519,7 @@ class IntroLevel17(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1548,7 +1548,7 @@ class IntroLevel18(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1578,7 +1578,7 @@ class IntroLevel19(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1610,7 +1610,7 @@ class IntroLevel20(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1643,7 +1643,7 @@ class IntroLevel21(CompileBase):
 
     def check(self):
         # analyze the submitted code
-        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "/dev/stdout"])
+        self.run(["clang-15", "-x", "c", "-S", "-c", "-emit-llvm", "-o", "-"])
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
         submitted_trimmed = self.trim_llvmir(self.submitted_processed_code)
@@ -1682,7 +1682,7 @@ class IntroLevel22(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "/dev/stdout", self.given_original_path]
+        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1725,7 +1725,7 @@ class IntroLevel23(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "/dev/stdout", self.given_original_path]
+        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1770,7 +1770,7 @@ class IntroLevel24(CompileBase):
         # analyze the submitted code
         pass_name = input("LLVM Pass Name> ")
         pass_name = self.pass_sanitizer(pass_name)
-        command = ["opt", "-S", f"-{pass_name}", "-o", "/dev/stdout", self.given_original_path]
+        command = ["opt", "-S", f"-{pass_name}", "-o", "-", self.given_original_path]
         self.submitted_processed_code = self.try_process(command)
 
         given_trimmed = self.trim_llvmir(self.given_processed_code)
@@ -1818,7 +1818,7 @@ class IntroLevel25(CompileBase):
 
     def check(self):
         submitted_asm = self.get_submitted_file()
-        given_asm = self.try_process(["llc", "-march=x86-64", "-filetype=asm", "-x86-asm-syntax=intel", "-o", "/dev/stdout", self.given_processed_path])
+        given_asm = self.try_process(["llc", "-march=x86-64", "-filetype=asm", "-x86-asm-syntax=intel", "-o", "-", self.given_processed_path])
         if submitted_asm == given_asm:
             print("Congratulations! You have passed this challenge! Following is your sesame:")
             get_sesame()
