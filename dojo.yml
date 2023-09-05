@@ -18,108 +18,108 @@ modules:
 
     challenges:
       - id: level1
-        name: 挑战：1.1.1
+        name: "1.1.1"
         description: Your first challenge, hope you enjoy it.
 
       - id: level2
-        name: level2
+        name: "1.1.2"
         description: try to `#define` constants.
       
       - id: level3
-        name: level3
+        name: "1.1.3"
         description: try to `#define` strings.
       
       - id: level4
-        name: level4
+        name: "1.1.4"
         description: try to `#define` functions and variables.
       
       - id: level5
-        name: level5
+        name: "1.1.5"
         description: do-while-zero macro is a common trick.
       
       - id: level6
-        name: level6
+        name: "1.1.6"
         description: conditional compilation is also a common technique.
       
       - id: level7
-        name: level7
+        name: "1.1.7"
         description: do you know `#include`?
       
       - id: level8
-        name: level8
+        name: "1.1.8"
         description: handle `#ifdef` and `#ifndef` correctly.
 
   - id: compilation
-    name: Compilation
+    name: 单元1.2：编译
     description: Welcome to the Compilation module, in this module, you will learn multiple compilation steps and learn basic knowledge about clang AST and LLVM IR.
 
     challenges:
       - id: level9
-        name: level9
+        name: "1.2.1"
         description: basic assignment and arithmetic operations in clang AST.
       
       - id: level10
-        name: level10
+        name: "1.2.2"
         description: array and pointer operations in clang AST.
       
       - id: level11
-        name: level11
+        name: "1.2.3"
         description: control flow operations in clang AST.
       
       - id: level12
-        name: level12
+        name: "1.2.4"
         description: struct and field operations in clang AST.
       
       - id: level13
-        name: level13
+        name: "1.2.5"
         description: loop in clang AST.
       
       - id: level14
-        name: level14
+        name: "1.2.6"
         description: basic assignment and arithmetic operations in LLVM IR
       
       - id: level15
-        name: level15
+        name: "1.2.7"
         description: constant string in LLVM IR
 
       - id: level16
-        name: level16
+        name: "1.2.8"
         description: array and pointer operations in LLVM IR
       
       - id: level17
-        name: level17
+        name: "1.2.9"
         description: control flow operations in LLVM IR
       
       - id: level18
-        name: level18
+        name: "1.2.10"
         description: field operations in LLVM IR
       
       - id: level19
-        name: level19
+        name: "1.2.11"
         description: loop in LLVM IR
       
       - id: level20
-        name: level20
+        name: "1.2.12"
         description: static and global variables in LLVM IR
       
       - id: level21
-        name: level21
+        name: "1.2.13"
         description: do you know how to merge 2 funtions?
       
       - id: level22
-        name: level22
+        name: "1.2.14"
         description: compilation optimization is performed on (LLVM) IR
 
       - id: level23
-        name: level23
+        name: "1.2.15"
         description: compilation optimization is performed on (LLVM) IR
       
       - id: level24
-        name: level24
+        name: "1.2.16"
         description: compilation optimization is performed on (LLVM) IR
       
       - id: level25
-        name: level25
+        name: "1.2.17"
         description: try to generate a assembly file from LLVM IR
 
   - id: assembly
