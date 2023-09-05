@@ -14,7 +14,7 @@ modules:
 
   - id: preprocess
     name: 单元1.1：预处理
-    description: Welcome to the Preprocess module. In this module, you will learn some common techniques in C/C++ preprocess.
+    description: 在本单元中，你将学习到有关C程序预处理的基本原理和技巧，包括宏定义、条件编译、头文件包含等。
 
     challenges:
       - id: level1
@@ -51,7 +51,7 @@ modules:
 
   - id: compilation
     name: 单元1.2：编译
-    description: Welcome to the Compilation module, in this module, you will learn multiple compilation steps and learn basic knowledge about clang AST and LLVM IR.
+    description: 在本单元中，你将会学习到有关C程序编译的几个重要步骤和几种C程序的中间表示形式，包括抽象语法树（AST）和LLVM中间表示（IR），最后对编译优化有个初步了解。
 
     challenges:
       - id: level9
@@ -123,133 +123,135 @@ modules:
         description: try to generate a assembly file from LLVM IR
 
   - id: assembly
-    name: Assembly
-    description: Welcome to the Assembly module. In this module, you will learn what is ELF.
+    name: 单元1.3：汇编
+    description: |
+        本单元的“汇编”并不是指汇编语言，而是指“汇编”这个过程，即将汇编代码转换为机器码的过程。
+        在本单元中，你将会探索“汇编”的产物，即 ELF 文件，包括 ELF 文件的基本结构、ELF 文件的各个部分的作用等。
 
     challenges:
       - id: level26
-        name: level26
+        name: "1.3.1"
         description: try to compile a embryo ELF object file.
       
       - id: level27
-        name: level27
+        name: "1.3.2"
         description: try to compile a baby ELF object file.
       
       - id: level28
-        name: level28
+        name: "1.3.3"
         description: try to compile a baby ELF object file with custom section.
       
       - id: level29
-        name: level29
+        name: "1.3.4"
         description: explore the ELF header.
       
       - id: level30
-        name: level30
+        name: "1.3.5"
         description: explore the ELF Section.
       
       - id: level31
-        name: level31
+        name: "1.3.6"
         description: explore the ELF Section Header Table.
       
       - id: level32
-        name: level32
+        name: "1.3.7"
         description: explore the ELF Section Header Table.
 
       - id: level33
-        name: level33
+        name: "1.3.8"
         description: what is a `symbol` in ELF?
       
       - id: level34
-        name: level34
+        name: "1.3.9"
         description: explore the ELF Symbol Table.
 
   - id: linking
-    name: Linking
-    description: Welcome to the Linking module. In this module, you will learn how to link multiple object files into a single executable file.
+    name: 单元1.4：链接
+    description: 在本单元中，你将会学习到有关链接的基本知识，以及链接器 ld 的基本使用方法。
 
     challenges:
       - id: level35
-        name: level35
+        name: "1.4.1"
         description: try to use `ld` to link multiple object files.
       
       - id: level36
-        name: level36
+        name: "1.4.2"
         description: explore how `ld` works.
 
       - id: level37
-        name: level37
+        name: "1.4.3"
         description: try to link multiple object files into a single executable file and make it executable.
 
   - id: execution
-    name: Execution
-    description: Welcome to the Execution module. In this module, you will learn how a program is executed and important concepts about memory.
+    name: 单元1.5：程序执行
+    description: 在本单元中，你将会学习到有关程序执行和进程的相关知识，包括内存布局，动态链接，函数调用等。
 
     challenges:
       - id : level38
-        name: level38
+        name: "1.5.1"
         description: try to execute a program and explore the memory layout of the program.
       
       - id : level39
-        name: level39
+        name: "1.5.2"
         description: explore the program header table of the ELF file.
 
       - id : level40
-        name: level40
+        name: "1.5.3"
         description: introduce the dynamic linking.
 
       - id : level41
-        name: level41
+        name: "1.5.4"
         description: explore plt and got in an ELF executable file.
       
       - id : level42
-        name: level42
+        name: "1.5.5"
         description: explore the basic program memory layout.
       
       - id: level43
-        name: level43
+        name: "1.5.6"
         description: explore the stack frame of function call.
 
       - id: level44
-        name: level44
+        name: "1.5.7"
         description: explore the calling convention of function call.
 
       - id: level45
-        name: level45
+        name: "1.5.8"
         description: final challenge, try to find memory range of corrsponding `variable` in the process's memory.
 
   - id: debugger
-    name: Debugger [Optional]
-    description: Welcome to the Debugger module. In this module, you will learn how to use gdb to debug a program.
+    name: 调试器 [可选]
+    description: 在本单元中，你会学习到调试器的常用方法
 
     challenges:
       - id : level1
-        name: level1
+        name: "1.6.1"
         description: ""
 
       - id : level2
-        name: level2
+        name: "1.6.2"
         description: ""
 
       - id : level3
-        name: level3
+        name: "1.6.3"
         description: ""
 
       - id : level4
-        name: level4
+        name: "1.6.4"
         description: ""
 
       - id : level5
-        name: level5
+        name: "1.6.5"
         description: ""
 
       - id : level6
-        name: level6
+        name: "1.6.6"
         description: ""
 
       - id : level7
-        name: level7
+        name: "1.6.7"
         description: ""
 
       - id : level8
-        name: level8
+        name: "1.6.8"
         description: ""
