@@ -13,12 +13,12 @@ award:
 modules:
 
   - id: preprocess
-    name: Preprocess
+    name: 单元1.1：预处理
     description: Welcome to the Preprocess module. In this module, you will learn some common techniques in C/C++ preprocess.
 
     challenges:
       - id: level1
-        name: level1
+        name: 挑战：1.1.1
         description: Your first challenge, hope you enjoy it.
 
       - id: level2
