@@ -2682,7 +2682,7 @@ class IntroLevel38(ELFBase):
         print(self.description)
     
     def ground_truth(self, pid):
-        res = subprocess.check_output(f"cat /proc/{pid}/maps", shell=True).decode().strip()
+        res = subprocess.check_output(f"cat /proc/{pid}/maps").decode().strip()
         entries = res.split("\n")
 
         result = { }
@@ -2858,7 +2858,7 @@ class IntroLevel40(ELFBase):
         print(self.description)
 
     def ground_truth(self, pid):
-        res = subprocess.check_output(f"cat /proc/{pid}/maps", shell=True).decode().strip()
+        res = subprocess.check_output(f"cat /proc/{pid}/maps").decode().strip()
         entries = res.split("\n")
 
         result = { }
