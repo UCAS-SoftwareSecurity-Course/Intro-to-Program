@@ -982,10 +982,10 @@ class IntroLevel1(ELFBase):
                                             
         Now, let's start our journey!
                                             
-        In this challenge, we present you with the code level{level}.c.
+        In this challenge, we present you with the code level{level}.c in the `/challenge` dir
 
         ** Your task **:
-        1. using `clang-15 -o <executable_file_name> level{level}.c` to compile the given code.
+        1. using `clang-15 -o <executable_file_name> /challenge/level{level}.c` to compile the given code.
         2. submit the generated executable file `level{level}` to pass this challenge.
         """)
 

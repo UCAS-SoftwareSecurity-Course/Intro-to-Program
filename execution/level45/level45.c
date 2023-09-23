@@ -16,11 +16,11 @@ void test_stack_variables() {
     printf("RBP of function `test_stack_variables` is: %p\n", rbp); 
 
     // stack variables declaration
-    unsigned int a = 0x11;
-    unsigned long b = 0x22;
+    unsigned int a = 0x1234aabb;
+    unsigned long b = 0x2234bbaa;
     char buf[0x10] = "Hello World!";
-    struct poss_st header = {0x33, "PoSS", NULL};
-    struct poss_st tail = {0x44, "PoSS", &header};
+    struct poss_st header = {1337, "PoSS", NULL};
+    struct poss_st tail = {1337, "PoSS", &header};
 
     void *range_start, *range_end;
 
