@@ -2675,7 +2675,7 @@ class IntroLevel38(ELFBase):
         """)
         hint = description(f"""
         Hint:
-             1. `/proc/<pid>/maps` will help you to finish this challenge.
+             1. `/proc/<pid>/maps` may help you to find the virtual address range of a process.
         """)
 
         self.description = task_description + hint
@@ -2684,6 +2684,9 @@ class IntroLevel38(ELFBase):
     def ground_truth(self, pid):
         with open(f"/proc/{pid}/maps", "r") as f:
             res = f.read().strip()
+
+        print("Following is the memory map of the process:")
+        print(res)
 
         entries = res.split("\n")
 
