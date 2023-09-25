@@ -1271,7 +1271,7 @@ class IntroLevel8(PreprocessAnalyzeBase):
 
         # if submitted code appears twice in preprocessed code, it means the code is not correct
         if preprocessed_submitted.count(submitted_code) < 2:
-            stdout, stderr = try_compile(["clang-15", "-x", "c", "-I", include_dir, "-o", "/dev/null", self.given_code[0]])
+            stdout, stderr = try_compile(["clang-15", "-x", "c", "-I", include_dir, "-o", "-", self.given_code[0]])
             if stderr:
                 print("Your submitted code is not correct !")
                 print(stderr)
