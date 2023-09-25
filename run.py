@@ -1211,7 +1211,6 @@ class IntroLevel7(PreprocessAnalyzeBase):
         print("Congratulations! You have passed this challenge! Following is your sesame:")
         get_sesame()
 
-# TODO: bug fix
 class IntroLevel8(PreprocessAnalyzeBase):
     def __init__(self):
         super().__init__()
@@ -1271,7 +1270,7 @@ class IntroLevel8(PreprocessAnalyzeBase):
 
         # if submitted code appears twice in preprocessed code, it means the code is not correct
         if preprocessed_submitted.count(submitted_code) < 2:
-            stdout, stderr = try_compile(["clang-15", "-x", "c", "-I", include_dir, "-o", "-", self.given_code[0]])
+            stdout, stderr = try_compile(["clang-15", "-S", "-x", "c", "-I", include_dir, "-o", "-", self.given_code[0]])
             if stderr:
                 print("Your submitted code is not correct !")
                 print(stderr)
