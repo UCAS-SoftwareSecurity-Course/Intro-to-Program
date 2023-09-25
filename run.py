@@ -90,6 +90,7 @@ def strip_empty_line(code: str) -> str:
     for line in lines:
         if line.strip() == "":
             continue
+        line = line.lstrip().rstrip()
         new_lines.append(line)
     return '\n'.join(new_lines)
     
