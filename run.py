@@ -1125,7 +1125,7 @@ class IntroLevel5(PreprocessAnalyzeBase):
         self.check_macro_define(["HANDLE_ERROR"])
         self.check_function_macro_use_cnt(["HANDLE_ERROR"], [1])
         self.check_func_macro_implementation(["HANDLE_ERROR"], ["while"])
-        if self.check_preprocess():
+        if self.check_preprocess(remove_empty_line = True):
             print("Congratulations! You have passed this challenge! Following is your sesame:")
             get_sesame()
 
