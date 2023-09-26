@@ -19,6 +19,7 @@ import lief
 import hashlib
 from tree_sitter import Language, Parser
 from typing import List, Dict, Tuple
+import traceback
 
 original_print = print
 def sanitized_print(*args, **kwargs):
@@ -210,16 +211,19 @@ class PreprocessAnalyzeBase():
         """
         Find #define of functions
         """
-        if cursor.node.type == "preproc_function_def":
-            defined_func_name = cursor.node.child_by_field_name("name").text.decode('utf-8').strip()
-            defined_func_line_num = cursor.node.start_point[0] + 1
-            defined_func_body = cursor.node.child_by_field_name("value").text.decode('utf-8').strip()
+        try:
+            if cursor.node.type == "preproc_function_def":
+                defined_func_name = cursor.node.child_by_field_name("name").text.decode('utf-8').strip()
+                defined_func_line_num = cursor.node.start_point[0] + 1
+                defined_func_body = cursor.node.child_by_field_name("value").text.decode('utf-8').strip()
 
-            self.defined_functions[defined_func_name] = {
-                "body": defined_func_body,
-                "line_num": defined_func_line_num
-            }
-            print(f"Found function define: {defined_func_name} at line {defined_func_line_num}")
+                self.defined_functions[defined_func_name] = {
+                    "body": defined_func_body,
+                    "line_num": defined_func_line_num
+                }
+                print(f"Found function define: {defined_func_name} at line {defined_func_line_num}")
+        except:
+            pass
 
     def find_function_define_use(self, cursor: tree_sitter.TreeCursor):
         """
@@ -291,7 +295,9 @@ class PreprocessAnalyzeBase():
                 self.find_constant_define_use(cursor)
                 self.find_function_define(cursor)
                 self.find_function_define_use(cursor)
-        except:
+        except Exception as e:
+            print(e)
+            print(traceback.format_exec())
             print("Traverse error! Please check the grammar of your source code.")
             print("If you are sure that your source code is correct, please contact the TA.")
             sys.exit(1)
