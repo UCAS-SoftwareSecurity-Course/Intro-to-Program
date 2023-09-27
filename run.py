@@ -2852,8 +2852,8 @@ class IntroLevel40(ELFBase):
             
             ** Your task **:
             1. Run the `level40` executable file, and give me the PID of the process.
-            2. You should submit a file containing the virtual address ranges where `printf` function and 
-                `my_swap` function are loaded.
+            2. You should submit a file containing the virtual address ranges (entries in /proc/<pid>/maps) 
+                where `printf` function and `my_swap` function are loaded.
                 for example:
                 ```
                 0x400000-0x401000
