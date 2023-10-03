@@ -765,7 +765,14 @@ class ELFBase():
                     symbol_data = symbol_data.decode('utf-8').strip().rstrip('\x00')
                     if rodata_content == symbol_data:
                         return True
-                    
+
+        # if there is no symbol in rodata
+        for section in self.binary.sections:
+            if section.name.startswith(".rodata"):
+                section_data = self.get_memory_data(section.content, 0, section.size)
+                if rodata_content in section_data.decode('utf-8'):
+                    return True
+
         print(f"`{rodata_content}` not found !")
         return False
 
